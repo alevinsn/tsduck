@@ -1,7 +1,7 @@
 //----------------------------------------------------------------------------
 //
 // TSDuck - The MPEG Transport Stream Toolkit
-// Copyright (c) 2005-2018, Thierry Lelegard
+// Copyright (c) 2005-2019, Thierry Lelegard
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -32,7 +32,7 @@ TSDUCK_SOURCE;
 
 
 //----------------------------------------------------------------------------
-// Constructors.
+// Constructors and destructors.
 //----------------------------------------------------------------------------
 
 ts::Service::Service() :
@@ -41,13 +41,16 @@ ts::Service::Service() :
     _onid(),
     _pmt_pid(),
     _lcn(),
-    _type(),
+    _type_dvb(),
+    _type_atsc(),
     _name(),
     _provider(),
     _eits_present(),
     _eitpf_present(),
     _ca_controlled(),
-    _running_status()
+    _running_status(),
+    _major_id_atsc(),
+    _minor_id_atsc()
 {
 }
 
@@ -61,6 +64,10 @@ ts::Service::Service(const UString& desc) :
     Service()
 {
     set(desc);
+}
+
+ts::Service::~Service()
+{
 }
 
 
@@ -95,13 +102,16 @@ void ts::Service::clear()
     _onid.reset();
     _pmt_pid.reset();
     _lcn.reset();
-    _type.reset();
+    _type_dvb.reset();
+    _type_atsc.reset();
     _name.reset();
     _provider.reset();
     _eits_present.reset();
     _eitpf_present.reset();
     _ca_controlled.reset();
     _running_status.reset();
+    _major_id_atsc.reset();
+    _minor_id_atsc.reset();
 }
 
 
@@ -127,8 +137,11 @@ uint32_t ts::Service::getFields() const
     if (_lcn.set()) {
         fields |= LCN;
     }
-    if (_type.set()) {
-        fields |= TYPE;
+    if (_type_dvb.set()) {
+        fields |= TYPE_DVB;
+    }
+    if (_type_atsc.set()) {
+        fields |= TYPE_ATSC;
     }
     if (_name.set()) {
         fields |= NAME;
@@ -147,6 +160,12 @@ uint32_t ts::Service::getFields() const
     }
     if (_running_status.set()) {
         fields |= RUNNING;
+    }
+    if (_major_id_atsc.set()) {
+        fields |= MAJORID_ATSC;
+    }
+    if (_minor_id_atsc.set()) {
+        fields |= MINORID_ATSC;
     }
     return fields;
 }
@@ -180,7 +199,8 @@ bool ts::Service::Sort1 (const Service& s1, const Service& s2)
     _SORT_(_id);
     _SORT_(_name);
     _SORT_(_provider);
-    _SORT_(_type);
+    _SORT_(_type_dvb);
+    _SORT_(_type_atsc);
     _SORT_(_pmt_pid);
     return true; // Default: remain stable
 }
@@ -194,7 +214,8 @@ bool ts::Service::Sort2 (const Service& s1, const Service& s2)
     _SORT_(_onid);
     _SORT_(_tsid);
     _SORT_(_id);
-    _SORT_(_type);
+    _SORT_(_type_dvb);
+    _SORT_(_type_atsc);
     _SORT_(_pmt_pid);
     return true; // Default: remain stable
 }
@@ -205,7 +226,8 @@ bool ts::Service::Sort3 (const Service& s1, const Service& s2)
     _SORT_(_onid);
     _SORT_(_tsid);
     _SORT_(_id);
-    _SORT_(_type);
+    _SORT_(_type_dvb);
+    _SORT_(_type_atsc);
     _SORT_(_name);
     _SORT_(_provider);
     _SORT_(_lcn);

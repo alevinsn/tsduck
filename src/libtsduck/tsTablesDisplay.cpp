@@ -1,7 +1,7 @@
 //----------------------------------------------------------------------------
 //
 //  TSDuck - The MPEG Transport Stream Toolkit
-//  Copyright (c) 2005-2018, Thierry Lelegard
+//  Copyright (c) 2005-2019, Thierry Lelegard
 //  All rights reserved.
 //
 //  Redistribution and use in source and binary forms, with or without
@@ -39,14 +39,18 @@ TSDUCK_SOURCE;
 
 
 //----------------------------------------------------------------------------
-// Constructor.
+// Constructor and destructors.
 //----------------------------------------------------------------------------
 
 ts::TablesDisplay::TablesDisplay(const TablesDisplayArgs& options, Report& report) :
     _opt(options),
     _report(report),
-    _outfile(),
-    _use_outfile(false)
+    _out(&std::cout),
+    _outfile()
+{
+}
+
+ts::TablesDisplay::~TablesDisplay()
 {
 }
 
@@ -74,27 +78,17 @@ ts::PDS ts::TablesDisplay::actualPDS(PDS pds) const
 
 
 //----------------------------------------------------------------------------
-// Get the current output stream.
-//----------------------------------------------------------------------------
-
-std::ostream& ts::TablesDisplay::out()
-{
-    return _use_outfile ? _outfile : std::cout;
-}
-
-
-//----------------------------------------------------------------------------
 // Flush the text output.
 //----------------------------------------------------------------------------
 
 void ts::TablesDisplay::flush()
 {
     // Flush the output.
-    out().flush();
+    _out->flush();
 
-    // On Windows, we must force the lower-level standard output.
-#if !defined(TS_WINDOWS)
-    if (!_use_outfile) {
+    // On Unix, we must force the lower-level standard output.
+#if defined(TS_UNIX)
+    if (_out == &std::cout) {
         ::fflush(stdout);
         ::fsync(STDOUT_FILENO);
     }
@@ -106,26 +100,37 @@ void ts::TablesDisplay::flush()
 // Redirect the output stream to a file.
 //----------------------------------------------------------------------------
 
-bool ts::TablesDisplay::redirect(const UString& file_name)
+void ts::TablesDisplay::redirect(std::ostream* stream, bool override)
 {
-    // Close previous file, if any.
-    if (_use_outfile) {
-        _outfile.close();
-        _use_outfile = false;
-    }
-
-    // Open new file if any.
-    if (!file_name.empty()) {
-        _report.verbose(u"creating " + file_name);
-        const std::string nameUTF8(file_name.toUTF8());
-        _outfile.open(nameUTF8.c_str(), std::ios::out);
-        if (!_outfile) {
-            _report.error(u"cannot create " + file_name);
-            return false;
+    if (override || _out == &std::cout) {
+        if (_out == &_outfile) {
+            _outfile.close();
         }
-        _use_outfile = true;
+        _out = stream == nullptr ? &std::cout : stream;
     }
+}
 
+bool ts::TablesDisplay::redirect(const UString& file_name, bool override)
+{
+    if (override || _out == &std::cout) {
+        // Close previous file, if any.
+        if (_out == &_outfile) {
+            _outfile.close();
+            _out = &std::cout;
+        }
+
+        // Open new file if any.
+        if (!file_name.empty()) {
+            _report.verbose(u"creating %s", {file_name});
+            const std::string nameUTF8(file_name.toUTF8());
+            _outfile.open(nameUTF8.c_str(), std::ios::out);
+            if (!_outfile) {
+                _report.error(u"cannot create %s", {file_name});
+                return false;
+            }
+            _out = &_outfile;
+        }
+    }
     return true;
 }
 
@@ -136,12 +141,11 @@ bool ts::TablesDisplay::redirect(const UString& file_name)
 
 std::ostream& ts::TablesDisplay::displayExtraData(const void* data, size_t size, int indent)
 {
-    std::ostream& strm(out());
     if (size > 0) {
-        strm << std::string(indent, ' ') << "Extraneous " << size << " bytes:" << std::endl
-             << UString::Dump(data, size, UString::HEXA | UString::ASCII | UString::OFFSET, indent);
+        (*_out) << std::string(indent, ' ') << "Extraneous " << size << " bytes:" << std::endl
+                << UString::Dump(data, size, UString::HEXA | UString::ASCII | UString::OFFSET, indent);
     }
-    return strm;
+    return *_out;
 }
 
 
@@ -151,12 +155,11 @@ std::ostream& ts::TablesDisplay::displayExtraData(const void* data, size_t size,
 
 std::ostream& ts::TablesDisplay::displayIfASCII(const void *data, size_t size, const UString& prefix, const UString& suffix)
 {
-    std::ostream& strm(out());
     const std::string ascii(ToASCII(data, size));
     if (!ascii.empty()) {
-        strm << prefix << ascii << suffix;
+        (*_out) << prefix << ascii << suffix;
     }
-    return strm;
+    return *_out;
 }
 
 
@@ -197,7 +200,7 @@ std::string ts::TablesDisplay::ToASCII(const void *data, size_t size)
 
 std::ostream& ts::TablesDisplay::displayTable(const BinaryTable& table, int indent, CASFamily cas)
 {
-    std::ostream& strm(out());
+    std::ostream& strm(*_out);
 
     // Filter invalid tables
     if (!table.isValid()) {
@@ -259,7 +262,7 @@ std::ostream& ts::TablesDisplay::displayTable(const BinaryTable& table, int inde
 
 std::ostream& ts::TablesDisplay::displaySection(const Section& section, int indent, CASFamily cas, bool no_header)
 {
-    std::ostream& strm(out());
+    std::ostream& strm(*_out);
 
     // Filter invalid section
     if (!section.isValid()) {
@@ -328,7 +331,7 @@ std::ostream& ts::TablesDisplay::displaySectionData(const Section& section, int 
 
 std::ostream& ts::TablesDisplay::logSectionData(const Section& section, const UString& header, size_t max_bytes, CASFamily cas)
 {
-    std::ostream& strm(out());
+    std::ostream& strm(*_out);
 
     // Number of bytes to log.
     size_t log_size = section.payloadSize();
@@ -353,7 +356,7 @@ std::ostream& ts::TablesDisplay::logSectionData(const Section& section, const US
 
 void ts::TablesDisplay::displayUnkownDescriptor(DID did, const uint8_t * payload, size_t size, int indent, TID tid, PDS pds)
 {
-    out() << UString::Dump(payload, size, UString::HEXA | UString::ASCII | UString::OFFSET, indent);
+    (*_out) << UString::Dump(payload, size, UString::HEXA | UString::ASCII | UString::OFFSET, indent);
 }
 
 
@@ -363,7 +366,7 @@ void ts::TablesDisplay::displayUnkownDescriptor(DID did, const uint8_t * payload
 
 void ts::TablesDisplay::displayUnkownSectionData(const ts::Section& section, int indent)
 {
-    std::ostream& strm(out());
+    std::ostream& strm(*_out);
     const std::string margin(indent, ' ');
 
     // The table id extension was not yet displayed since it depends on the table id.
@@ -421,7 +424,7 @@ void ts::TablesDisplay::displayTLV(const uint8_t* data,
                                    int innerIndent,
                                    const TLVSyntax& tlv)
 {
-    std::ostream& strm(out());
+    std::ostream& strm(*_out);
 
     // We use the same syntax for the optional embedded TLV, except that it is automatically located.
     TLVSyntax tlvInner(tlv);
@@ -497,7 +500,7 @@ std::ostream& ts::TablesDisplay::displayDescriptor(const Descriptor& desc, int i
         return displayDescriptorData(desc.tag(), desc.payload(), desc.payloadSize(), indent, tid, actualPDS(pds), cas);
     }
     else {
-        return out();
+        return *_out;
     }
 }
 
@@ -508,7 +511,7 @@ std::ostream& ts::TablesDisplay::displayDescriptor(const Descriptor& desc, int i
 
 std::ostream& ts::TablesDisplay::displayDescriptorList(const void* data, size_t size, int indent, TID tid, PDS pds, CASFamily cas)
 {
-    std::ostream& strm(out());
+    std::ostream& strm(*_out);
     const std::string margin(indent, ' ');
     const uint8_t* desc_start = reinterpret_cast<const uint8_t*>(data);
     size_t desc_index = 0;
@@ -558,7 +561,7 @@ std::ostream& ts::TablesDisplay::displayDescriptorList(const void* data, size_t 
 
 std::ostream& ts::TablesDisplay::displayDescriptorList(const DescriptorList& list, int indent, TID tid, PDS pds, CASFamily cas)
 {
-    std::ostream& strm(out());
+    std::ostream& strm(*_out);
     const std::string margin(indent, ' ');
 
     for (size_t i = 0; i < list.count(); ++i) {
@@ -582,7 +585,7 @@ std::ostream& ts::TablesDisplay::displayDescriptorList(const DescriptorList& lis
 
 std::ostream& ts::TablesDisplay::displayDescriptorData(DID did, const uint8_t* payload, size_t size, int indent, TID tid, ts::PDS pds, CASFamily cas)
 {
-    std::ostream& strm(out());
+    std::ostream& strm(*_out);
 
     // Compute extended descriptor id.
     EDID edid;

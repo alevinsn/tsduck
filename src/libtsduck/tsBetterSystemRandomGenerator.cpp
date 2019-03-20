@@ -1,7 +1,7 @@
 //----------------------------------------------------------------------------
 //
 // TSDuck - The MPEG Transport Stream Toolkit
-// Copyright (c) 2005-2018, Thierry Lelegard
+// Copyright (c) 2005-2019, Thierry Lelegard
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -79,6 +79,16 @@ ts::BetterSystemRandomGenerator::BetterSystemRandomGenerator() :
     if (!_aes.setKey(_fixedKey, sizeof(_fixedKey))) {
         _ready = false;
     }
+}
+
+
+//----------------------------------------------------------------------------
+// Implementation of RandomGenerator interface:
+//----------------------------------------------------------------------------
+
+ts::UString ts::BetterSystemRandomGenerator::name() const
+{
+    return u"BetterSystemRandomGenerator";
 }
 
 

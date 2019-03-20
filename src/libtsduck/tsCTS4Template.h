@@ -1,7 +1,7 @@
 //----------------------------------------------------------------------------
 //
 // TSDuck - The MPEG Transport Stream Toolkit
-// Copyright (c) 2005-2018, Thierry Lelegard
+// Copyright (c) 2005-2019, Thierry Lelegard
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -36,6 +36,29 @@
 //----------------------------------------------------------------------------
 
 #pragma once
+
+
+//----------------------------------------------------------------------------
+// Simple virtual methods.
+//----------------------------------------------------------------------------
+
+template<class CIPHER>
+size_t ts::CTS4<CIPHER>::minMessageSize() const
+{
+    return this->block_size + 1;
+}
+
+template<class CIPHER>
+bool ts::CTS4<CIPHER>::residueAllowed() const
+{
+    return true;
+}
+
+template<class CIPHER>
+ts::UString ts::CTS4<CIPHER>::name() const
+{
+    return this->algo == nullptr ? UString() : this->algo->name() + u"-CTS4";
+}
 
 
 //----------------------------------------------------------------------------

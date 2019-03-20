@@ -1,7 +1,7 @@
 #-----------------------------------------------------------------------------
 #
 #  TSDuck - The MPEG Transport Stream Toolkit
-#  Copyright (c) 2005-2018, Thierry Lelegard
+#  Copyright (c) 2005-2019, Thierry Lelegard
 #  All rights reserved.
 #
 #  Redistribution and use in source and binary forms, with or without
@@ -72,6 +72,7 @@ SUBDIRS += \
     tsplugin_null \
     tsplugin_pat \
     tsplugin_pattern \
+    tsplugin_pcradjust \
     tsplugin_pcrbitrate \
     tsplugin_pcrextract \
     tsplugin_pcrverify \

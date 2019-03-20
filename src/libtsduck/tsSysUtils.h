@@ -1,7 +1,7 @@
 //----------------------------------------------------------------------------
 //
 // TSDuck - The MPEG Transport Stream Toolkit
-// Copyright (c) 2005-2018, Thierry Lelegard
+// Copyright (c) 2005-2019, Thierry Lelegard
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -148,6 +148,23 @@ namespace ts {
     TSDUCKDLL UString AbsoluteFilePath(const UString& path, const UString& base = UString());
 
     //!
+    //! Build a relative form of a file path, relative to a base directory.
+    //!
+    //! @param [in] path A file path.
+    //! @param [in] base The base directory to use.
+    //! By default, when @a base is empty, the current working directory is used.
+    //! @param [in] caseSensitivity Case sensitivity of file names comparison.
+    //! By default, use the local file system case sensitivity.
+    //! @param [in] portableSlashes If true, the relative path contains forward slashes ('/'),
+    //! even on Windows. The resulting path can be used in relative URL's for instance.
+    //! @return The absolute form of @a path after cleanup.
+    //!
+    TSDUCKDLL UString RelativeFilePath(const UString& path,
+                                       const UString& base = UString(),
+                                       CaseSensitivity caseSensitivity = FileSystemCaseSensitivity,
+                                       bool portableSlashes = false);
+
+    //!
     //! Cleanup a file path.
     //!
     //! @param [in] path A file path.
@@ -258,7 +275,7 @@ namespace ts {
     //!
     //! Integer type for process identifier
     //!
-#if defined (DOXYGEN)
+#if defined(DOXYGEN)
     typedef platform_specific ProcessId;
 #elif defined(TS_WINDOWS)
     typedef ::DWORD ProcessId;
@@ -283,9 +300,10 @@ namespace ts {
     //!
     //! Create a directory
     //! @param [in] path A directory path.
+    //! @param [in] intermediate When true, also create intermediate directories.
     //! @return A system-specific error code (SYS_SUCCESS on success).
     //!
-    TSDUCKDLL ErrorCode CreateDirectory(const UString& path);
+    TSDUCKDLL ErrorCode CreateDirectory(const UString& path, bool intermediate = false);
 
     //!
     //! Return the name of a directory for temporary files.

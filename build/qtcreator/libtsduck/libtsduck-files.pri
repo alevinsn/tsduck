@@ -13,6 +13,7 @@ HEADERS += \
     ../../../src/libtsduck/tsAbstractHTTPInputPlugin.h \
     ../../../src/libtsduck/tsAbstractLongTable.h \
     ../../../src/libtsduck/tsAbstractMultilingualDescriptor.h \
+    ../../../src/libtsduck/tsAbstractOutputStream.h \
     ../../../src/libtsduck/tsAbstractSignalization.h \
     ../../../src/libtsduck/tsAbstractTable.h \
     ../../../src/libtsduck/tsAbstractTablePlugin.h \
@@ -45,6 +46,7 @@ HEADERS += \
     ../../../src/libtsduck/tsAsyncReport.h \
     ../../../src/libtsduck/tsAudioAttributes.h \
     ../../../src/libtsduck/tsAudioLanguageOptions.h \
+    ../../../src/libtsduck/tsAudioPreselectionDescriptor.h \
     ../../../src/libtsduck/tsAudioStreamDescriptor.h \
     ../../../src/libtsduck/tsAVCAttributes.h \
     ../../../src/libtsduck/tsAVCHRDParameters.h \
@@ -76,8 +78,10 @@ HEADERS += \
     ../../../src/libtsduck/tsCBC.h \
     ../../../src/libtsduck/tsCBCTemplate.h \
     ../../../src/libtsduck/tsCerrReport.h \
+    ../../../src/libtsduck/tsChannelFile.h \
     ../../../src/libtsduck/tsCIAncillaryDataDescriptor.h \
     ../../../src/libtsduck/tsCipherChaining.h \
+    ../../../src/libtsduck/tsCipherChainingTemplate.h \
     ../../../src/libtsduck/tsCOM.h \
     ../../../src/libtsduck/tsComponentDescriptor.h \
     ../../../src/libtsduck/tsCondition.h \
@@ -99,6 +103,7 @@ HEADERS += \
     ../../../src/libtsduck/tsCTS4.h \
     ../../../src/libtsduck/tsCTS4Template.h \
     ../../../src/libtsduck/tsCueIdentifierDescriptor.h \
+    ../../../src/libtsduck/tsCVCT.h \
     ../../../src/libtsduck/tsCyclingPacketizer.h \
     ../../../src/libtsduck/tsDataBroadcastDescriptor.h \
     ../../../src/libtsduck/tsDataBroadcastIdDescriptor.h \
@@ -126,6 +131,7 @@ HEADERS += \
     ../../../src/libtsduck/tsDVBCharsetSingleByte.h \
     ../../../src/libtsduck/tsDVBCharsetUTF16.h \
     ../../../src/libtsduck/tsDVBCharsetUTF8.h \
+    ../../../src/libtsduck/tsDVBCISSA.h \
     ../../../src/libtsduck/tsDVBCSA2.h \
     ../../../src/libtsduck/tsDVBHTMLApplicationBoundaryDescriptor.h \
     ../../../src/libtsduck/tsDVBHTMLApplicationDescriptor.h \
@@ -169,12 +175,15 @@ HEADERS += \
     ../../../src/libtsduck/tsHDSimulcastLogicalChannelDescriptor.h \
     ../../../src/libtsduck/tsHEVCTimingAndHRDDescriptor.h \
     ../../../src/libtsduck/tsHEVCVideoDescriptor.h \
+    ../../../src/libtsduck/tsHFBand.h \
     ../../../src/libtsduck/tsHiDesDevice.h \
     ../../../src/libtsduck/tsHiDesDeviceInfo.h \
     ../../../src/libtsduck/tsHierarchyDescriptor.h \
     ../../../src/libtsduck/tshls.h \
+    ../../../src/libtsduck/tshlsInputPlugin.h \
     ../../../src/libtsduck/tshlsMediaPlayList.h \
     ../../../src/libtsduck/tshlsMediaSegment.h \
+    ../../../src/libtsduck/tshlsOutputPlugin.h \
     ../../../src/libtsduck/tshlsPlayList.h \
     ../../../src/libtsduck/tshlsTagAttributes.h \
     ../../../src/libtsduck/tsIBPDescriptor.h \
@@ -186,16 +195,26 @@ HEADERS += \
     ../../../src/libtsduck/tsInterruptHandler.h \
     ../../../src/libtsduck/tsIPAddress.h \
     ../../../src/libtsduck/tsIPAddressMask.h \
+    ../../../src/libtsduck/tsIPInputPlugin.h \
     ../../../src/libtsduck/tsIPMACGenericStreamLocationDescriptor.h \
     ../../../src/libtsduck/tsIPMACPlatformNameDescriptor.h \
     ../../../src/libtsduck/tsIPMACPlatformProviderNameDescriptor.h \
     ../../../src/libtsduck/tsIPMACStreamLocationDescriptor.h \
+    ../../../src/libtsduck/tsIPOutputPlugin.h \
     ../../../src/libtsduck/tsIPSignallingDescriptor.h \
     ../../../src/libtsduck/tsIPUtils.h \
     ../../../src/libtsduck/tsIPv6Address.h \
     ../../../src/libtsduck/tsISO639LanguageDescriptor.h \
     ../../../src/libtsduck/tsISPAccessModeDescriptor.h \
     ../../../src/libtsduck/tsjson.h \
+    ../../../src/libtsduck/tsjsonArray.h \
+    ../../../src/libtsduck/tsjsonFalse.h \
+    ../../../src/libtsduck/tsjsonNull.h \
+    ../../../src/libtsduck/tsjsonNumber.h \
+    ../../../src/libtsduck/tsjsonObject.h \
+    ../../../src/libtsduck/tsjsonString.h \
+    ../../../src/libtsduck/tsjsonTrue.h \
+    ../../../src/libtsduck/tsjsonValue.h \
     ../../../src/libtsduck/tsLinkageDescriptor.h \
     ../../../src/libtsduck/tsLNB.h \
     ../../../src/libtsduck/tsLocalTimeOffsetDescriptor.h \
@@ -210,6 +229,7 @@ HEADERS += \
     ../../../src/libtsduck/tsMessagePriorityQueueTemplate.h \
     ../../../src/libtsduck/tsMessageQueue.h \
     ../../../src/libtsduck/tsMessageQueueTemplate.h \
+    ../../../src/libtsduck/tsMGT.h \
     ../../../src/libtsduck/tsMJD.h \
     ../../../src/libtsduck/tsModulation.h \
     ../../../src/libtsduck/tsMonotonic.h \
@@ -241,6 +261,7 @@ HEADERS += \
     ../../../src/libtsduck/tsPacketDecapsulation.h \
     ../../../src/libtsduck/tsPacketEncapsulation.h \
     ../../../src/libtsduck/tsPacketizer.h \
+    ../../../src/libtsduck/tsPagerArgs.h \
     ../../../src/libtsduck/tsParentalRatingDescriptor.h \
     ../../../src/libtsduck/tsPartialTransportStreamDescriptor.h \
     ../../../src/libtsduck/tsPAT.h \
@@ -266,6 +287,7 @@ HEADERS += \
     ../../../src/libtsduck/tsPrefetchDescriptor.h \
     ../../../src/libtsduck/tsPrivateDataIndicatorDescriptor.h \
     ../../../src/libtsduck/tsPrivateDataSpecifierDescriptor.h \
+    ../../../src/libtsduck/tsProtectionMessageDescriptor.h \
     ../../../src/libtsduck/tsPSILogger.h \
     ../../../src/libtsduck/tsPSILoggerArgs.h \
     ../../../src/libtsduck/tsPushInputPlugin.h \
@@ -428,7 +450,7 @@ HEADERS += \
     ../../../src/libtsduck/tsTunerParametersDVBC.h \
     ../../../src/libtsduck/tsTunerParametersDVBS.h \
     ../../../src/libtsduck/tsTunerParametersDVBT.h \
-    ../../../src/libtsduck/tsTunerUtils.h \
+    ../../../src/libtsduck/tsTVCT.h \
     ../../../src/libtsduck/tsUChar.h \
     ../../../src/libtsduck/tsUDPReceiver.h \
     ../../../src/libtsduck/tsUDPSocket.h \
@@ -437,8 +459,10 @@ HEADERS += \
     ../../../src/libtsduck/tsUString.h \
     ../../../src/libtsduck/tsUStringTemplate.h \
     ../../../src/libtsduck/tsVariable.h \
+    ../../../src/libtsduck/tsVariableTemplate.h \
     ../../../src/libtsduck/tsVBIDataDescriptor.h \
     ../../../src/libtsduck/tsVBITeletextDescriptor.h \
+    ../../../src/libtsduck/tsVCT.h \
     ../../../src/libtsduck/tsVersion.h \
     ../../../src/libtsduck/tsVersionInfo.h \
     ../../../src/libtsduck/tsVersionString.h \
@@ -470,7 +494,10 @@ HEADERS += \
 
 SOURCES += \
     ../../../src/libtsduck/tsAACDescriptor.cpp \
+    ../../../src/libtsduck/tsAbortInterface.cpp \
+    ../../../src/libtsduck/tsAbstractAudioVideoAttributes.cpp \
     ../../../src/libtsduck/tsAbstractAVCAccessUnit.cpp \
+    ../../../src/libtsduck/tsAbstractAVCData.cpp \
     ../../../src/libtsduck/tsAbstractAVCStructure.cpp \
     ../../../src/libtsduck/tsAbstractDeliverySystemDescriptor.cpp \
     ../../../src/libtsduck/tsAbstractDemux.cpp \
@@ -478,7 +505,9 @@ SOURCES += \
     ../../../src/libtsduck/tsAbstractDescriptor.cpp \
     ../../../src/libtsduck/tsAbstractDescriptorsTable.cpp \
     ../../../src/libtsduck/tsAbstractHTTPInputPlugin.cpp \
+    ../../../src/libtsduck/tsAbstractLongTable.cpp \
     ../../../src/libtsduck/tsAbstractMultilingualDescriptor.cpp \
+    ../../../src/libtsduck/tsAbstractOutputStream.cpp \
     ../../../src/libtsduck/tsAbstractSignalization.cpp \
     ../../../src/libtsduck/tsAbstractTable.cpp \
     ../../../src/libtsduck/tsAbstractTablePlugin.cpp \
@@ -505,6 +534,7 @@ SOURCES += \
     ../../../src/libtsduck/tsAsyncReport.cpp \
     ../../../src/libtsduck/tsAudioAttributes.cpp \
     ../../../src/libtsduck/tsAudioLanguageOptions.cpp \
+    ../../../src/libtsduck/tsAudioPreselectionDescriptor.cpp \
     ../../../src/libtsduck/tsAudioStreamDescriptor.cpp \
     ../../../src/libtsduck/tsAVCAttributes.cpp \
     ../../../src/libtsduck/tsAVCHRDParameters.cpp \
@@ -530,6 +560,7 @@ SOURCES += \
     ../../../src/libtsduck/tsCASSelectionArgs.cpp \
     ../../../src/libtsduck/tsCAT.cpp \
     ../../../src/libtsduck/tsCerrReport.cpp \
+    ../../../src/libtsduck/tsChannelFile.cpp \
     ../../../src/libtsduck/tsCIAncillaryDataDescriptor.cpp \
     ../../../src/libtsduck/tsCipherChaining.cpp \
     ../../../src/libtsduck/tsCOM.cpp \
@@ -544,6 +575,7 @@ SOURCES += \
     ../../../src/libtsduck/tsCPIdentifierDescriptor.cpp \
     ../../../src/libtsduck/tsCRC32.cpp \
     ../../../src/libtsduck/tsCueIdentifierDescriptor.cpp \
+    ../../../src/libtsduck/tsCVCT.cpp \
     ../../../src/libtsduck/tsCyclingPacketizer.cpp \
     ../../../src/libtsduck/tsDataBroadcastDescriptor.cpp \
     ../../../src/libtsduck/tsDataBroadcastIdDescriptor.cpp \
@@ -558,6 +590,8 @@ SOURCES += \
     ../../../src/libtsduck/tsDescriptorList.cpp \
     ../../../src/libtsduck/tsDIILocationDescriptor.cpp \
     ../../../src/libtsduck/tsDiscontinuityInformationTable.cpp \
+    ../../../src/libtsduck/tsDisplayInterface.cpp \
+    ../../../src/libtsduck/tsDoubleCheckLock.cpp \
     ../../../src/libtsduck/tsDSMCCStreamDescriptorsTable.cpp \
     ../../../src/libtsduck/tsDTSDescriptor.cpp \
     ../../../src/libtsduck/tsDTSNeuralDescriptor.cpp \
@@ -567,6 +601,7 @@ SOURCES += \
     ../../../src/libtsduck/tsDVBCharsetSingleByte.cpp \
     ../../../src/libtsduck/tsDVBCharsetUTF16.cpp \
     ../../../src/libtsduck/tsDVBCharsetUTF8.cpp \
+    ../../../src/libtsduck/tsDVBCISSA.cpp \
     ../../../src/libtsduck/tsDVBCSA2.cpp \
     ../../../src/libtsduck/tsDVBHTMLApplicationBoundaryDescriptor.cpp \
     ../../../src/libtsduck/tsDVBHTMLApplicationDescriptor.cpp \
@@ -578,6 +613,7 @@ SOURCES += \
     ../../../src/libtsduck/tsEacemStreamIdentifierDescriptor.cpp \
     ../../../src/libtsduck/tsECMGClient.cpp \
     ../../../src/libtsduck/tsECMGClientArgs.cpp \
+    ../../../src/libtsduck/tsECMGClientHandlerInterface.cpp \
     ../../../src/libtsduck/tsECMGSCS.cpp \
     ../../../src/libtsduck/tsECMRepetitionRateDescriptor.cpp \
     ../../../src/libtsduck/tsEIT.cpp \
@@ -599,14 +635,18 @@ SOURCES += \
     ../../../src/libtsduck/tsGrid.cpp \
     ../../../src/libtsduck/tsGuard.cpp \
     ../../../src/libtsduck/tsGuardCondition.cpp \
+    ../../../src/libtsduck/tsHash.cpp \
     ../../../src/libtsduck/tsHDSimulcastLogicalChannelDescriptor.cpp \
     ../../../src/libtsduck/tsHEVCTimingAndHRDDescriptor.cpp \
     ../../../src/libtsduck/tsHEVCVideoDescriptor.cpp \
+    ../../../src/libtsduck/tsHFBand.cpp \
     ../../../src/libtsduck/tsHiDesDeviceInfo.cpp \
     ../../../src/libtsduck/tsHierarchyDescriptor.cpp \
     ../../../src/libtsduck/tshls.cpp \
+    ../../../src/libtsduck/tshlsInputPlugin.cpp \
     ../../../src/libtsduck/tshlsMediaPlayList.cpp \
     ../../../src/libtsduck/tshlsMediaSegment.cpp \
+    ../../../src/libtsduck/tshlsOutputPlugin.cpp \
     ../../../src/libtsduck/tshlsPlayList.cpp \
     ../../../src/libtsduck/tshlsTagAttributes.cpp \
     ../../../src/libtsduck/tsIBPDescriptor.cpp \
@@ -614,18 +654,29 @@ SOURCES += \
     ../../../src/libtsduck/tsInputRedirector.cpp \
     ../../../src/libtsduck/tsINT.cpp \
     ../../../src/libtsduck/tsIntegerUtils.cpp \
+    ../../../src/libtsduck/tsInterruptHandler.cpp \
     ../../../src/libtsduck/tsIPAddress.cpp \
     ../../../src/libtsduck/tsIPAddressMask.cpp \
+    ../../../src/libtsduck/tsIPInputPlugin.cpp \
     ../../../src/libtsduck/tsIPMACGenericStreamLocationDescriptor.cpp \
     ../../../src/libtsduck/tsIPMACPlatformNameDescriptor.cpp \
     ../../../src/libtsduck/tsIPMACPlatformProviderNameDescriptor.cpp \
     ../../../src/libtsduck/tsIPMACStreamLocationDescriptor.cpp \
+    ../../../src/libtsduck/tsIPOutputPlugin.cpp \
     ../../../src/libtsduck/tsIPSignallingDescriptor.cpp \
     ../../../src/libtsduck/tsIPUtils.cpp \
     ../../../src/libtsduck/tsIPv6Address.cpp \
     ../../../src/libtsduck/tsISO639LanguageDescriptor.cpp \
     ../../../src/libtsduck/tsISPAccessModeDescriptor.cpp \
     ../../../src/libtsduck/tsjson.cpp \
+    ../../../src/libtsduck/tsjsonArray.cpp \
+    ../../../src/libtsduck/tsjsonFalse.cpp \
+    ../../../src/libtsduck/tsjsonNull.cpp \
+    ../../../src/libtsduck/tsjsonNumber.cpp \
+    ../../../src/libtsduck/tsjsonObject.cpp \
+    ../../../src/libtsduck/tsjsonString.cpp \
+    ../../../src/libtsduck/tsjsonTrue.cpp \
+    ../../../src/libtsduck/tsjsonValue.cpp \
     ../../../src/libtsduck/tsLinkageDescriptor.cpp \
     ../../../src/libtsduck/tsLNB.cpp \
     ../../../src/libtsduck/tsLocalTimeOffsetDescriptor.cpp \
@@ -635,6 +686,7 @@ SOURCES += \
     ../../../src/libtsduck/tsMD5.cpp \
     ../../../src/libtsduck/tsMemoryUtils.cpp \
     ../../../src/libtsduck/tsMessageDescriptor.cpp \
+    ../../../src/libtsduck/tsMGT.cpp \
     ../../../src/libtsduck/tsMJD.cpp \
     ../../../src/libtsduck/tsModulation.cpp \
     ../../../src/libtsduck/tsMonotonic.cpp \
@@ -642,6 +694,7 @@ SOURCES += \
     ../../../src/libtsduck/tsMPEG.cpp \
     ../../../src/libtsduck/tsMPEG4AudioDescriptor.cpp \
     ../../../src/libtsduck/tsMPEG4VideoDescriptor.cpp \
+    ../../../src/libtsduck/tsMPEHandlerInterface.cpp \
     ../../../src/libtsduck/tsMPEPacket.cpp \
     ../../../src/libtsduck/tsMultilingualBouquetNameDescriptor.cpp \
     ../../../src/libtsduck/tsMultilingualComponentDescriptor.cpp \
@@ -649,11 +702,13 @@ SOURCES += \
     ../../../src/libtsduck/tsMultilingualServiceNameDescriptor.cpp \
     ../../../src/libtsduck/tsMultiplexBufferUtilizationDescriptor.cpp \
     ../../../src/libtsduck/tsMutex.cpp \
+    ../../../src/libtsduck/tsMutexInterface.cpp \
     ../../../src/libtsduck/tsNames.cpp \
     ../../../src/libtsduck/tsNetworkNameDescriptor.cpp \
     ../../../src/libtsduck/tsNIT.cpp \
     ../../../src/libtsduck/tsNPTEndpointDescriptor.cpp \
     ../../../src/libtsduck/tsNPTReferenceDescriptor.cpp \
+    ../../../src/libtsduck/tsNullMutex.cpp \
     ../../../src/libtsduck/tsNullReport.cpp \
     ../../../src/libtsduck/tsNVODReferenceDescriptor.cpp \
     ../../../src/libtsduck/tsObject.cpp \
@@ -663,6 +718,7 @@ SOURCES += \
     ../../../src/libtsduck/tsPacketDecapsulation.cpp \
     ../../../src/libtsduck/tsPacketEncapsulation.cpp \
     ../../../src/libtsduck/tsPacketizer.cpp \
+    ../../../src/libtsduck/tsPagerArgs.cpp \
     ../../../src/libtsduck/tsParentalRatingDescriptor.cpp \
     ../../../src/libtsduck/tsPartialTransportStreamDescriptor.cpp \
     ../../../src/libtsduck/tsPAT.cpp \
@@ -671,6 +727,7 @@ SOURCES += \
     ../../../src/libtsduck/tsPCRRegulator.cpp \
     ../../../src/libtsduck/tsPCSC.cpp \
     ../../../src/libtsduck/tsPESDemux.cpp \
+    ../../../src/libtsduck/tsPESHandlerInterface.cpp \
     ../../../src/libtsduck/tsPESPacket.cpp \
     ../../../src/libtsduck/tsPIDOperator.cpp \
     ../../../src/libtsduck/tsPlugin.cpp \
@@ -679,11 +736,14 @@ SOURCES += \
     ../../../src/libtsduck/tsPluginSharedLibrary.cpp \
     ../../../src/libtsduck/tsPluginThread.cpp \
     ../../../src/libtsduck/tsPMT.cpp \
+    ../../../src/libtsduck/tsPMTHandlerInterface.cpp \
     ../../../src/libtsduck/tsPolledFile.cpp \
     ../../../src/libtsduck/tsPollFiles.cpp \
+    ../../../src/libtsduck/tsPollFilesListener.cpp \
     ../../../src/libtsduck/tsPrefetchDescriptor.cpp \
     ../../../src/libtsduck/tsPrivateDataIndicatorDescriptor.cpp \
     ../../../src/libtsduck/tsPrivateDataSpecifierDescriptor.cpp \
+    ../../../src/libtsduck/tsProtectionMessageDescriptor.cpp \
     ../../../src/libtsduck/tsPSILogger.cpp \
     ../../../src/libtsduck/tsPSILoggerArgs.cpp \
     ../../../src/libtsduck/tsPushInputPlugin.cpp \
@@ -691,6 +751,7 @@ SOURCES += \
     ../../../src/libtsduck/tsRegistrationDescriptor.cpp \
     ../../../src/libtsduck/tsRegistry.cpp \
     ../../../src/libtsduck/tsReport.cpp \
+    ../../../src/libtsduck/tsReportHandler.cpp \
     ../../../src/libtsduck/tsReportWithPrefix.cpp \
     ../../../src/libtsduck/tsRingNode.cpp \
     ../../../src/libtsduck/tsRST.cpp \
@@ -698,10 +759,13 @@ SOURCES += \
     ../../../src/libtsduck/tsSatelliteDeliverySystemDescriptor.cpp \
     ../../../src/libtsduck/tsScramblingDescriptor.cpp \
     ../../../src/libtsduck/tsSCTE35.cpp \
+    ../../../src/libtsduck/tsSCTE52.cpp \
     ../../../src/libtsduck/tsSDT.cpp \
     ../../../src/libtsduck/tsSection.cpp \
     ../../../src/libtsduck/tsSectionDemux.cpp \
     ../../../src/libtsduck/tsSectionFile.cpp \
+    ../../../src/libtsduck/tsSectionHandlerInterface.cpp \
+    ../../../src/libtsduck/tsSectionProviderInterface.cpp \
     ../../../src/libtsduck/tsSelectionInformationTable.cpp \
     ../../../src/libtsduck/tsService.cpp \
     ../../../src/libtsduck/tsServiceAvailabilityDescriptor.cpp \
@@ -738,6 +802,7 @@ SOURCES += \
     ../../../src/libtsduck/tsStreamEventDescriptor.cpp \
     ../../../src/libtsduck/tsStreamIdentifierDescriptor.cpp \
     ../../../src/libtsduck/tsStreamModeDescriptor.cpp \
+    ../../../src/libtsduck/tsStringifyInterface.cpp \
     ../../../src/libtsduck/tsStuffingDescriptor.cpp \
     ../../../src/libtsduck/tsSubRipGenerator.cpp \
     ../../../src/libtsduck/tsSubtitlingDescriptor.cpp \
@@ -749,7 +814,9 @@ SOURCES += \
     ../../../src/libtsduck/tsSysUtils.cpp \
     ../../../src/libtsduck/tsT2MIDemux.cpp \
     ../../../src/libtsduck/tsT2MIDescriptor.cpp \
+    ../../../src/libtsduck/tsT2MIHandlerInterface.cpp \
     ../../../src/libtsduck/tsT2MIPacket.cpp \
+    ../../../src/libtsduck/tsTableHandlerInterface.cpp \
     ../../../src/libtsduck/tsTablesDisplay.cpp \
     ../../../src/libtsduck/tsTablesDisplayArgs.cpp \
     ../../../src/libtsduck/tsTablesFactory.cpp \
@@ -775,6 +842,7 @@ SOURCES += \
     ../../../src/libtsduck/tsTeletextDemux.cpp \
     ../../../src/libtsduck/tsTeletextDescriptor.cpp \
     ../../../src/libtsduck/tsTeletextFrame.cpp \
+    ../../../src/libtsduck/tsTeletextHandlerInterface.cpp \
     ../../../src/libtsduck/tsTelnetConnection.cpp \
     ../../../src/libtsduck/tsTerrestrialDeliverySystemDescriptor.cpp \
     ../../../src/libtsduck/tsTextFormatter.cpp \
@@ -787,10 +855,13 @@ SOURCES += \
     ../../../src/libtsduck/tsTimeSliceFECIdentifierDescriptor.cpp \
     ../../../src/libtsduck/tsTimeTrackerDemux.cpp \
     ../../../src/libtsduck/tstlvAnalyzer.cpp \
+    ../../../src/libtsduck/tstlvChannelMessage.cpp \
     ../../../src/libtsduck/tstlvLogger.cpp \
     ../../../src/libtsduck/tstlvMessage.cpp \
     ../../../src/libtsduck/tstlvMessageFactory.cpp \
+    ../../../src/libtsduck/tstlvProtocol.cpp \
     ../../../src/libtsduck/tstlvSerializer.cpp \
+    ../../../src/libtsduck/tstlvStreamMessage.cpp \
     ../../../src/libtsduck/tsTLVSyntax.cpp \
     ../../../src/libtsduck/tsTOT.cpp \
     ../../../src/libtsduck/tsTransportProtocolDescriptor.cpp \
@@ -815,7 +886,7 @@ SOURCES += \
     ../../../src/libtsduck/tsTunerParametersDVBC.cpp \
     ../../../src/libtsduck/tsTunerParametersDVBS.cpp \
     ../../../src/libtsduck/tsTunerParametersDVBT.cpp \
-    ../../../src/libtsduck/tsTunerUtils.cpp \
+    ../../../src/libtsduck/tsTVCT.cpp \
     ../../../src/libtsduck/tsUChar.cpp \
     ../../../src/libtsduck/tsUDPReceiver.cpp \
     ../../../src/libtsduck/tsUDPSocket.cpp \
@@ -824,13 +895,16 @@ SOURCES += \
     ../../../src/libtsduck/tsUString.cpp \
     ../../../src/libtsduck/tsVBIDataDescriptor.cpp \
     ../../../src/libtsduck/tsVBITeletextDescriptor.cpp \
+    ../../../src/libtsduck/tsVCT.cpp \
     ../../../src/libtsduck/tsVersionInfo.cpp \
     ../../../src/libtsduck/tsVideoAttributes.cpp \
     ../../../src/libtsduck/tsVideoStreamDescriptor.cpp \
     ../../../src/libtsduck/tsVideoWindowDescriptor.cpp \
     ../../../src/libtsduck/tsWatchDog.cpp \
+    ../../../src/libtsduck/tsWatchDogHandlerInterface.cpp \
     ../../../src/libtsduck/tsWebRequest.cpp \
     ../../../src/libtsduck/tsWebRequestArgs.cpp \
+    ../../../src/libtsduck/tsWebRequestHandlerInterface.cpp \
     ../../../src/libtsduck/tsxmlAttribute.cpp \
     ../../../src/libtsduck/tsxmlComment.cpp \
     ../../../src/libtsduck/tsxmlDeclaration.cpp \

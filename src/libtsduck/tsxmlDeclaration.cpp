@@ -1,7 +1,7 @@
 //----------------------------------------------------------------------------
 //
 // TSDuck - The MPEG Transport Stream Toolkit
-// Copyright (c) 2005-2018, Thierry Lelegard
+// Copyright (c) 2005-2019, Thierry Lelegard
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -48,6 +48,11 @@ ts::xml::Declaration::Declaration(Report& report, size_t line) :
 ts::xml::Declaration::Declaration(Document* parent, const UString& value) :
     Node(parent, value.empty() ? DEFAULT_XML_DECLARATION : value)
 {
+}
+
+ts::UString ts::xml::Declaration::typeName() const
+{
+    return u"Declaration";
 }
 
 

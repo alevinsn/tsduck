@@ -1,7 +1,7 @@
 //----------------------------------------------------------------------------
 //
 // TSDuck - The MPEG Transport Stream Toolkit
-// Copyright (c) 2005-2018, Thierry Lelegard
+// Copyright (c) 2005-2019, Thierry Lelegard
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -33,6 +33,7 @@
 
 #include "tsMain.h"
 #include "tsInputRedirector.h"
+#include "tsPagerArgs.h"
 #include "tsPSILogger.h"
 TSDUCK_SOURCE;
 
@@ -50,29 +51,39 @@ const ts::StaticReferencesDVB dependenciesForStaticLib;
 struct Options: public ts::Args
 {
     Options(int argc, char *argv[]);
+    virtual ~Options();
 
     ts::UString           infile;   // Input file name
     ts::PSILoggerArgs     logger;   // Table logging options
     ts::TablesDisplayArgs display;  // Table formatting options.
+    ts::PagerArgs         pager;    // Output paging options.
 };
 
+// Destructor.
+Options::~Options() {}
+
+// Constructor.
 Options::Options(int argc, char *argv[]) :
     Args(u"Extract all standard PSI from an MPEG transport stream", u"[options] [filename]"),
     infile(),
     logger(),
-    display()
+    display(),
+    pager(true, true)
 {
-    option(u"", 0, STRING, 0, 1);
-    help(u"", u"Input MPEG capture file (standard input if omitted).");
-
+    pager.defineOptions(*this);
     logger.defineOptions(*this);
     display.defineOptions(*this);
 
+    option(u"", 0, STRING, 0, 1);
+    help(u"", u"Input MPEG capture file (standard input if omitted).");
+
     analyze(argc, argv);
 
-    infile = value(u"");
+    pager.load(*this);
     logger.load(*this);
     display.load(*this);
+
+    infile = value(u"");
 
     exitOnError();
 }
@@ -89,6 +100,9 @@ int MainCode(int argc, char *argv[])
     ts::TablesDisplay display(opt.display, opt);
     ts::PSILogger logger(opt.logger, display, opt);
     ts::TSPacket pkt;
+
+    // Redirect display on pager process or stdout only.
+    display.redirect(&opt.pager.output(opt), false);
 
     // Read all packets in the file and pass them to the logger
     while (!logger.completed() && pkt.read(std::cin, true, opt)) {

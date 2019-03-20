@@ -1,7 +1,7 @@
 //----------------------------------------------------------------------------
 //
 // TSDuck - The MPEG Transport Stream Toolkit
-// Copyright (c) 2005-2018, Thierry Lelegard
+// Copyright (c) 2005-2019, Thierry Lelegard
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -33,9 +33,8 @@
 
 #include "tsPlatform.h"
 TSDUCK_SOURCE;
-#if defined (TS_WINDOWS)
+#if defined(TS_WINDOWS)
 
-#include "tsTunerUtils.h"
 #include "tsDirectShowTest.h"
 #include "tsWinUtils.h"
 #include "utestCppUnitTest.h"

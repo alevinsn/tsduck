@@ -1,7 +1,7 @@
 //----------------------------------------------------------------------------
 //
 // TSDuck - The MPEG Transport Stream Toolkit
-// Copyright (c) 2005-2018, Thierry Lelegard
+// Copyright (c) 2005-2019, Thierry Lelegard
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -96,4 +96,27 @@ bool ts::ECB<CIPHER>::decrypt(const void* cipher, size_t cipher_length,
     }
 
     return true;
+}
+
+
+//----------------------------------------------------------------------------
+// Simple virtual methods.
+//----------------------------------------------------------------------------
+
+template<class CIPHER>
+size_t ts::ECB<CIPHER>::minMessageSize() const
+{
+    return this->block_size;
+}
+
+template<class CIPHER>
+bool ts::ECB<CIPHER>::residueAllowed() const
+{
+    return false;
+}
+
+template<class CIPHER>
+ts::UString ts::ECB<CIPHER>::name() const
+{
+    return this->algo == nullptr ? UString() : this->algo->name() + u"-ECB";
 }

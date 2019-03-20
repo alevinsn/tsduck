@@ -1,7 +1,7 @@
 //----------------------------------------------------------------------------
 //
 // TSDuck - The MPEG Transport Stream Toolkit
-// Copyright (c) 2005-2018, Thierry Lelegard
+// Copyright (c) 2005-2019, Thierry Lelegard
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -77,7 +77,7 @@ namespace ts {
         //!
         //! Virtual destructor
         //!
-        virtual ~AbstractTable() {}
+        virtual ~AbstractTable();
 
         //!
         //! Base inner class for table entries with one or more descriptor lists.
@@ -247,8 +247,9 @@ namespace ts {
         //! Protected constructor for subclasses.
         //! @param [in] tid Table id.
         //! @param [in] xml_name Table name, as used in XML structures.
+        //! @param [in] standards A bit mask of standards which define this structure.
         //!
-        AbstractTable(TID tid, const UChar* xml_name);
+        AbstractTable(TID tid, const UChar* xml_name, Standards standards);
 
     private:
         // Unreachable constructors and operators.

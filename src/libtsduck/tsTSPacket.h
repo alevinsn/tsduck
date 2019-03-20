@@ -1,7 +1,7 @@
 //----------------------------------------------------------------------------
 //
 // TSDuck - The MPEG Transport Stream Toolkit
-// Copyright (c) 2005-2018, Thierry Lelegard
+// Copyright (c) 2005-2019, Thierry Lelegard
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -60,6 +60,17 @@ namespace ts {
         //! Internal error: access a non-existent adaptation field.
         //!
         TS_DECLARE_EXCEPTION(AdaptationFieldError);
+
+        //!
+        //! Default constructor.
+        //!
+        TSPacket() = default;
+
+        //!
+        //! Copy constructor.
+        //! @param [in] p Other packet to copy.
+        //!
+        TSPacket(const TSPacket& p) = default;
 
         //!
         //! Assigment operator.
@@ -397,13 +408,13 @@ namespace ts {
 
         //!
         //! Get the PCR - 42 bits.
-        //! @return The PCR or 0 if not found.
+        //! @return The PCR or INVALID_PCR if not found.
         //!
         uint64_t getPCR() const;
 
         //!
         //! Get the OPCR - 42 bits.
-        //! @return The OPCR or 0 if not found.
+        //! @return The OPCR or INVALID_PCR if not found.
         //!
         uint64_t getOPCR() const;
 

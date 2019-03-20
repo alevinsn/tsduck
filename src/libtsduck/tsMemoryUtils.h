@@ -1,7 +1,7 @@
 //----------------------------------------------------------------------------
 //
 // TSDuck - The MPEG Transport Stream Toolkit
-// Copyright (c) 2005-2018, Thierry Lelegard
+// Copyright (c) 2005-2019, Thierry Lelegard
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -51,7 +51,7 @@ namespace ts {
     //! @param [in] size Size in bytes of the memory area.
     //!
     TSDUCKDLL inline void Zero(void* addr, size_t size) {
-#if defined (TS_WINDOWS)
+#if defined(TS_WINDOWS)
         ::SecureZeroMemory(addr, size);
 #else
         ::memset(addr, 0, size);

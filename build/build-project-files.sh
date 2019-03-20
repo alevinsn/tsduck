@@ -2,7 +2,7 @@
 #-----------------------------------------------------------------------------
 #
 #  TSDuck - The MPEG Transport Stream Toolkit
-#  Copyright (c) 2005-2018, Thierry Lelegard
+#  Copyright (c) 2005-2019, Thierry Lelegard
 #  All rights reserved.
 #
 #  Redistribution and use in source and binary forms, with or without
@@ -93,7 +93,7 @@ GetGroup()
     local subdir="$1"; shift
     local name=""
 
-    for f in $(grep -l "@ingroup *$group" "$SRCDIR/$subdir/ts"*.h | grep -v '/tsAbstract' | sort --ignore-case); do
+    for f in $(grep -l "@ingroup *$group" "$SRCDIR/$subdir/ts"*.h | grep -v -e /tsAbstract -e /tsVCT | sort --ignore-case); do
         name=$(basename $f .h | sed -e 's/^ts//')
         echo "${PREFIX}${name}${SUFFIX}"
     done

@@ -1,7 +1,7 @@
 //----------------------------------------------------------------------------
 //
 // TSDuck - The MPEG Transport Stream Toolkit
-// Copyright (c) 2005-2018, Thierry Lelegard
+// Copyright (c) 2005-2019, Thierry Lelegard
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -47,6 +47,16 @@ ts::xml::Text::Text(Element* parent, const UString& text, bool cdata) :
     Node(parent, text),
     _isCData(cdata)
 {
+}
+
+ts::UString ts::xml::Text::typeName() const
+{
+    return u"Text";
+}
+
+bool ts::xml::Text::stickyOutput() const
+{
+    return !_isCData;
 }
 
 

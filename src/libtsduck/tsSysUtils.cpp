@@ -1,7 +1,7 @@
 //----------------------------------------------------------------------------
 //
 //  TSDuck - The MPEG Transport Stream Toolkit
-//  Copyright (c) 2005-2018, Thierry Lelegard
+//  Copyright (c) 2005-2019, Thierry Lelegard
 //  All rights reserved.
 //
 //  Redistribution and use in source and binary forms, with or without
@@ -204,12 +204,86 @@ ts::UString ts::AbsoluteFilePath(const UString& path, const UString& base)
 
 
 //----------------------------------------------------------------------------
+// Build a relative form of a file path, relative to a base directory.
+//----------------------------------------------------------------------------
+
+ts::UString ts::RelativeFilePath(const ts::UString &path, const ts::UString &base, ts::CaseSensitivity caseSensitivity, bool portableSlashes)
+{
+    // Build absolute file path of the target.
+    UString target(AbsoluteFilePath(path));
+
+    // Build absolute file path of the base directory, with a trailing path separator.
+    UString ref(AbsoluteFilePath(base.empty() ? CurrentWorkingDirectory() : base));
+    ref.append(PathSeparator);
+
+    // See how many leading characters are matching.
+    size_t same = target.commonPrefixSize(ref, caseSensitivity);
+
+    // Move backward right after the previous path separator to
+    // get the length of the common directory parts
+    while (same > 0 && target[same - 1] != PathSeparator) {
+        --same;
+    }
+
+    // If there is zero common character, no relative path is possible.
+    // In that case, return the absolute path.
+    // Note that this can normally happen on Windows only with paths
+    // such as C:\foo\bar and D:\other. On Unix systems, there is at
+    // least the root '/' in common.
+    if (same > 0) {
+
+        // There is a leading common part, remove it from target.
+        target.erase(0, same);
+
+        // For each remaining directory level in reference, insert a "../" in target.
+        const UString up{u'.', u'.', PathSeparator};
+        for (size_t i = same; i < ref.length(); ++i) {
+            if (ref[i] == PathSeparator) {
+                target.insert(0, up);
+            }
+        }
+    }
+
+    // Convert portable slashes.
+    if (portableSlashes && PathSeparator != u'/') {
+        target.substitute(PathSeparator, u'/');
+    }
+
+    return target;
+}
+
+
+//----------------------------------------------------------------------------
+// Find the last path separator in a name (including portable separator).
+//----------------------------------------------------------------------------
+
+namespace {
+    ts::UString::size_type LastPathSeparator(const ts::UString& path)
+    {
+#if defined(TS_WINDOWS)
+        // Also accept slash as path separator.
+        ts::UString::size_type i = path.length();
+        while (i > 0) {
+            if (path[--i] == u'\\' || path[i] == u'/') {
+                return i;
+            }
+        }
+        return ts::NPOS;
+#else
+        // Only one possibility.
+        return path.rfind(ts::PathSeparator);
+#endif
+    }
+}
+
+
+//----------------------------------------------------------------------------
 // Return the directory name of a file path.
 //----------------------------------------------------------------------------
 
 ts::UString ts::DirectoryName(const UString& path)
 {
-    UString::size_type sep = path.rfind(PathSeparator);
+    UString::size_type sep = LastPathSeparator(path);
 
     if (sep == NPOS) {
         return u".";               // No '/' in path => current directory
@@ -229,7 +303,7 @@ ts::UString ts::DirectoryName(const UString& path)
 
 ts::UString ts::BaseName(const UString& path, const UString& suffix)
 {
-    const UString::size_type sep = path.rfind(PathSeparator);
+    const UString::size_type sep = LastPathSeparator(path);
     const UString base(path.substr(sep == NPOS ? 0 : sep + 1));
     const bool suffixFound = !suffix.empty() && base.endWith(suffix, FileSystemCaseSensitivity);
     return suffixFound ? base.substr(0, base.size() - suffix.size()) : base;
@@ -242,7 +316,7 @@ ts::UString ts::BaseName(const UString& path, const UString& suffix)
 
 ts::UString ts::PathSuffix(const UString& path)
 {
-    UString::size_type sep = path.rfind(PathSeparator);
+    UString::size_type sep = LastPathSeparator(path);
     UString::size_type dot = path.rfind(u'.');
 
     if (dot == NPOS) {
@@ -264,7 +338,7 @@ ts::UString ts::PathSuffix(const UString& path)
 
 ts::UString ts::AddPathSuffix(const UString& path, const UString& suffix)
 {
-    UString::size_type sep = path.rfind(PathSeparator);
+    UString::size_type sep = LastPathSeparator(path);
     UString::size_type dot = path.rfind(u'.');
 
     if (dot == NPOS || (sep != NPOS && dot < sep)) {
@@ -282,7 +356,7 @@ ts::UString ts::AddPathSuffix(const UString& path, const UString& suffix)
 
 ts::UString ts::PathPrefix(const UString& path)
 {
-    UString::size_type sep = path.rfind(PathSeparator);
+    UString::size_type sep = LastPathSeparator(path);
     UString::size_type dot = path.rfind(u'.');
 
     if (dot == NPOS) {
@@ -437,8 +511,22 @@ bool ts::IsPrivilegedUser()
 // Create a directory
 //----------------------------------------------------------------------------
 
-ts::ErrorCode ts::CreateDirectory(const UString& path)
+ts::ErrorCode ts::CreateDirectory(const UString& path, bool intermediate)
 {
+    // Create intermediate directories.
+    if (intermediate) {
+        const UString dir(DirectoryName(path));
+        // Create only if does not exist or is identical to path (meaning root).
+        if (dir != path && !IsDirectory(dir)) {
+            // Create recursively.
+            const ErrorCode err = CreateDirectory(dir, true);
+            if (err != SYS_SUCCESS) {
+                return err;
+            }
+        }
+    }
+
+    // Create the final directory.
 #if defined(TS_WINDOWS)
     return ::CreateDirectoryW(path.wc_str(), nullptr) == 0 ? ::GetLastError() : SYS_SUCCESS;
 #else
@@ -623,7 +711,7 @@ ts::UString ts::SearchConfigurationFile(const UString& fileName)
         // The file exists as is, no need to search.
         return fileName;
     }
-    if (fileName.find(PathSeparator) != NPOS) {
+    if (LastPathSeparator(fileName) != NPOS) {
         // There is a path separator, there is a directory specified and the file does not exist, don't search.
         return UString();
     }

@@ -1,7 +1,7 @@
 //----------------------------------------------------------------------------
 //
 // TSDuck - The MPEG Transport Stream Toolkit
-// Copyright (c) 2005-2018, Thierry Lelegard
+// Copyright (c) 2005-2019, Thierry Lelegard
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -51,6 +51,29 @@ ts::DVS042<CIPHER>::DVS042() :
     CipherChainingTemplate<CIPHER>(1, 1, 1),
     shortIV(this->block_size)
 {
+}
+
+
+//----------------------------------------------------------------------------
+// Simple virtual methods.
+//----------------------------------------------------------------------------
+
+template<class CIPHER>
+size_t ts::DVS042<CIPHER>::minMessageSize() const 
+{
+    return 0;
+}
+
+template<class CIPHER>
+bool ts::DVS042<CIPHER>::residueAllowed() const 
+{
+    return true;
+}
+
+template<class CIPHER>
+ts::UString ts::DVS042<CIPHER>::name() const 
+{
+    return this->algo == nullptr ? UString() : this->algo->name() + u"-DVS042";
 }
 
 

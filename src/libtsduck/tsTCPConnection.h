@@ -1,7 +1,7 @@
 //----------------------------------------------------------------------------
 //
 // TSDuck - The MPEG Transport Stream Toolkit
-// Copyright (c) 2005-2018, Thierry Lelegard
+// Copyright (c) 2005-2019, Thierry Lelegard
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -213,14 +213,14 @@ namespace ts {
         //! All subclasses should explicitly invoke their superclass' handlers.
         //! @param [in,out] report Where to report error.
         //!
-        virtual void handleConnected(Report& report = CERR) {}
+        virtual void handleConnected(Report& report = CERR);
 
         //!
         //! This virtual method can be overriden by subclasses to be notified of disconnection.
         //! All subclasses should explicitly invoke their superclass' handlers.
         //! @param [in,out] report Where to report error.
         //!
-        virtual void handleDisconnected(Report& report = CERR) {}
+        virtual void handleDisconnected(Report& report = CERR);
 
         // Overriden methods
         virtual void handleClosed(Report& report = CERR) override;

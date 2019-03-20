@@ -1,7 +1,7 @@
 //----------------------------------------------------------------------------
 //
 // TSDuck - The MPEG Transport Stream Toolkit
-// Copyright (c) 2005-2018, Thierry Lelegard
+// Copyright (c) 2005-2019, Thierry Lelegard
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -59,6 +59,20 @@ TSDUCK_SOURCE;
 #define WIDE_PID_COL1   14   // PID list, column 1 (id).
 #define WIDE_PID_COL2   56   // PID list, column 2 (name).
 #define WIDE_PID_COL3   14   // PID list, column 3 (bitrate).
+
+
+//----------------------------------------------------------------------------
+// Constructors and destructors.
+//----------------------------------------------------------------------------
+
+ts::TSAnalyzerReport::TSAnalyzerReport(BitRate bitrate_hint) :
+    TSAnalyzer(bitrate_hint)
+{
+}
+
+ts::TSAnalyzerReport::~TSAnalyzerReport()
+{
+}
 
 
 //----------------------------------------------------------------------------
@@ -166,6 +180,18 @@ void ts::TSAnalyzerReport::report(std::ostream& stm, const TSAnalyzerOptions& op
     if (opt.normalized) {
         reportNormalized(stm, opt.title);
     }
+}
+
+
+//----------------------------------------------------------------------------
+// General reporting method, using the specified options.
+//----------------------------------------------------------------------------
+
+ts::UString ts::TSAnalyzerReport::reportToString(const TSAnalyzerOptions & opt)
+{
+    std::stringstream stm(std::ios::out);
+    report(stm, opt);
+    return UString::FromUTF8(stm.str());
 }
 
 

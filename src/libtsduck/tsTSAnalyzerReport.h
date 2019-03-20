@@ -1,7 +1,7 @@
 //----------------------------------------------------------------------------
 //
 // TSDuck - The MPEG Transport Stream Toolkit
-// Copyright (c) 2005-2018, Thierry Lelegard
+// Copyright (c) 2005-2019, Thierry Lelegard
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -52,10 +52,12 @@ namespace ts {
         //! packets. The bitrate hint is optional: if specified as zero, the
         //! analysis is based on the PCR values.
         //!
-        TSAnalyzerReport(BitRate bitrate_hint = 0) :
-            TSAnalyzer(bitrate_hint)
-        {
-        }
+        TSAnalyzerReport(BitRate bitrate_hint = 0);
+
+        //!
+        //! Virtual destructor
+        //!
+        virtual ~TSAnalyzerReport();
 
         //!
         //! Set the analysis options.
@@ -70,6 +72,13 @@ namespace ts {
         //! @param [in] opt Analysis options.
         //!
         void report(std::ostream& strm, const TSAnalyzerOptions& opt);
+
+        //!
+        //! General reporting method, using the specified options.
+        //! @param [in] opt Analysis options.
+        //! @return The analysis as a String.
+        //!
+        UString reportToString(const TSAnalyzerOptions& opt);
 
         //!
         //! Report formatted analysis about the global transport stream.

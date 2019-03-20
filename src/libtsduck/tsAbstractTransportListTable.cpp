@@ -1,7 +1,7 @@
 //----------------------------------------------------------------------------
 //
 // TSDuck - The MPEG Transport Stream Toolkit
-// Copyright (c) 2005-2018, Thierry Lelegard
+// Copyright (c) 2005-2019, Thierry Lelegard
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -44,10 +44,11 @@ TSDUCK_SOURCE;
 
 ts::AbstractTransportListTable::AbstractTransportListTable(TID tid_,
                                                            const UChar* xml_name,
+                                                           Standards standards,
                                                            uint16_t tid_ext_,
                                                            uint8_t version_,
                                                            bool is_current_) :
-    AbstractLongTable(tid_, xml_name, version_, is_current_),
+    AbstractLongTable(tid_, xml_name, standards, version_, is_current_),
     descs(this),
     transports(this),
     _tid_ext(tid_ext_)
@@ -63,8 +64,12 @@ ts::AbstractTransportListTable::AbstractTransportListTable(const AbstractTranspo
 {
 }
 
-ts::AbstractTransportListTable::AbstractTransportListTable(TID tid, const UChar* xml_name, const BinaryTable& table, const DVBCharset* charset) :
-    AbstractLongTable(tid, xml_name),
+ts::AbstractTransportListTable::AbstractTransportListTable(TID tid,
+                                                           const UChar* xml_name,
+                                                           Standards standards,
+                                                           const BinaryTable& table,
+                                                           const DVBCharset* charset) :
+    AbstractLongTable(tid, xml_name, standards, 0, true),
     descs(this),
     transports(this),
     _tid_ext(0xFFFF)

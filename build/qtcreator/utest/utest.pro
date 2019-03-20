@@ -18,6 +18,7 @@ SOURCES += \
     ../../../src/utest/utestArgs.cpp \
     ../../../src/utest/utestBitStream.cpp \
     ../../../src/utest/utestByteBlock.cpp \
+    ../../../src/utest/utestChannels.cpp \
     ../../../src/utest/utestConfig.cpp \
     ../../../src/utest/utestCppUnitMain.cpp \
     ../../../src/utest/utestCppUnitTest.cpp \
@@ -65,6 +66,7 @@ SOURCES += \
     ../../../src/utest/utestWebRequest.cpp \
     ../../../src/utest/utestXML.cpp \
     ../../../src/utest/utestHLS.cpp \
+    ../../../src/utest/utestHFBand.cpp \
     ../../../src/utest/utestCppUnitThread.cpp
 
 DISTFILES += \

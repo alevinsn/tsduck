@@ -1,7 +1,7 @@
 //----------------------------------------------------------------------------
 //
 // TSDuck - The MPEG Transport Stream Toolkit
-// Copyright (c) 2005-2018, Thierry Lelegard
+// Copyright (c) 2005-2019, Thierry Lelegard
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -98,8 +98,15 @@ namespace ts {
         //!
         UString toString() const;
 
+        //!
+        //! Virtual destructor
+        //!
+        virtual ~SpliceTime();
+
         // Inherited methods.
         //! @cond doxygen
+        SpliceTime() = default;
+        SpliceTime(const SpliceTime& other) = default;
         SpliceTime& operator=(const SpliceTime& other) { SuperClass::operator=(other); return *this; }
         SpliceTime& operator=(const uint64_t& other) { SuperClass::operator=(other); return *this; }
         //! @endcond

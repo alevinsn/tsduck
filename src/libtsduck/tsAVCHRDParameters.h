@@ -2,7 +2,7 @@
 //----------------------------------------------------------------------------
 //
 // TSDuck - The MPEG Transport Stream Toolkit
-// Copyright (c) 2005-2018, Thierry Lelegard
+// Copyright (c) 2005-2019, Thierry Lelegard
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -61,7 +61,7 @@ namespace ts {
 
         // Inherited methods
         virtual void clear() override;
-        virtual bool parse(const void* data, size_t size) override { return AbstractAVCStructure::parse(data, size); }
+        virtual bool parse(const void* data, size_t size) override;
         virtual bool parse(AVCParser&) override;
         virtual std::ostream& display(std::ostream& = std::cout, const UString& margin = UString()) const override;
 

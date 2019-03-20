@@ -1,7 +1,7 @@
 //----------------------------------------------------------------------------
 //
 // TSDuck - The MPEG Transport Stream Toolkit
-// Copyright (c) 2005-2018, Thierry Lelegard
+// Copyright (c) 2005-2019, Thierry Lelegard
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -38,6 +38,7 @@
 namespace ts {
     //!
     //! Representation of a DSM-CC Stream Descriptors table.
+    //!
     //! @see ISO/IEC 13818-6, ITU-T Rec. 9.2.2 and 9.2.7.
     //! @ingroup table
     //!
@@ -66,6 +67,13 @@ namespace ts {
         //! @param [in] other Other instance to copy.
         //!
         DSMCCStreamDescriptorsTable(const DSMCCStreamDescriptorsTable& other);
+
+        //!
+        //! Assignment operator.
+        //! @param [in] other Other instance to copy.
+        //! @return A reference to this object.
+        //!
+        DSMCCStreamDescriptorsTable& operator=(const DSMCCStreamDescriptorsTable& other);
 
         // Inherited methods
         virtual void buildXML(xml::Element*) const override;

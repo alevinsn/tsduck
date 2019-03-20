@@ -1,7 +1,7 @@
 //----------------------------------------------------------------------------
 //
 // TSDuck - The MPEG Transport Stream Toolkit
-// Copyright (c) 2005-2018, Thierry Lelegard
+// Copyright (c) 2005-2019, Thierry Lelegard
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -51,11 +51,7 @@ namespace ts {
             //! @param [in] tag Message tag.
             //! @param [in] ch_id Channel id.
             //!
-            ChannelMessage(TAG tag, uint16_t ch_id = 0) :
-                Message(tag),
-                channel_id(ch_id)
-            {
-            }
+            ChannelMessage(TAG tag, uint16_t ch_id = 0);
 
             //!
             //! Constructor.
@@ -63,11 +59,12 @@ namespace ts {
             //! @param [in] tag Message tag.
             //! @param [in] ch_id Channel id.
             //!
-            ChannelMessage(VERSION protocol_version, TAG tag, uint16_t ch_id = 0) :
-                Message(protocol_version, tag),
-                channel_id(ch_id)
-            {
-            }
+            ChannelMessage(VERSION protocol_version, TAG tag, uint16_t ch_id = 0);
+
+            //!
+            //! Virtual destructor
+            //!
+            virtual ~ChannelMessage();
         };
     }
 }

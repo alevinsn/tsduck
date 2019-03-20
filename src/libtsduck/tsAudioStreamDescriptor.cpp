@@ -1,7 +1,7 @@
 //----------------------------------------------------------------------------
 //
 // TSDuck - The MPEG Transport Stream Toolkit
-// Copyright (c) 2005-2018, Thierry Lelegard
+// Copyright (c) 2005-2019, Thierry Lelegard
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -36,6 +36,7 @@ TSDUCK_SOURCE;
 
 #define MY_XML_NAME u"audio_stream_descriptor"
 #define MY_DID ts::DID_AUDIO
+#define MY_STD ts::STD_MPEG
 
 TS_XML_DESCRIPTOR_FACTORY(ts::AudioStreamDescriptor, MY_XML_NAME);
 TS_ID_DESCRIPTOR_FACTORY(ts::AudioStreamDescriptor, ts::EDID::Standard(MY_DID));
@@ -47,7 +48,7 @@ TS_ID_DESCRIPTOR_DISPLAY(ts::AudioStreamDescriptor::DisplayDescriptor, ts::EDID:
 //----------------------------------------------------------------------------
 
 ts::AudioStreamDescriptor::AudioStreamDescriptor() :
-    AbstractDescriptor(MY_DID, MY_XML_NAME),
+    AbstractDescriptor(MY_DID, MY_XML_NAME, MY_STD, 0),
     free_format(false),
     ID(0),
     layer(0),

@@ -1,7 +1,7 @@
 //----------------------------------------------------------------------------
 //
 // TSDuck - The MPEG Transport Stream Toolkit
-// Copyright (c) 2005-2018, Thierry Lelegard
+// Copyright (c) 2005-2019, Thierry Lelegard
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -36,7 +36,7 @@ TSDUCK_SOURCE;
 
 
 //----------------------------------------------------------------------------
-// Constructors
+// Constructors and destructors.
 //----------------------------------------------------------------------------
 
 ts::SocketAddress::SocketAddress(const ::sockaddr& s) :
@@ -53,6 +53,10 @@ ts::SocketAddress::SocketAddress(const ::sockaddr& s) :
 ts::SocketAddress::SocketAddress(const ::sockaddr_in& s) :
     IPAddress(s),
     _port(s.sin_family == AF_INET ? ntohs(s.sin_port) : AnyPort)
+{
+}
+
+ts::SocketAddress::~SocketAddress()
 {
 }
 

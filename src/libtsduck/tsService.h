@@ -1,7 +1,7 @@
 //----------------------------------------------------------------------------
 //
 // TSDuck - The MPEG Transport Stream Toolkit
-// Copyright (c) 2005-2018, Thierry Lelegard
+// Copyright (c) 2005-2019, Thierry Lelegard
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -71,7 +71,7 @@ namespace ts {
         //!
         //! Destructor.
         //!
-        virtual ~Service() {}
+        virtual ~Service();
 
         //!
         //! Reset using a string description.
@@ -149,11 +149,14 @@ namespace ts {
         SERVICE_PROPERTY_INT(uint16_t, ONId,          _onid,           0,        Original Network Id)
         SERVICE_PROPERTY_INT(uint16_t, LCN,           _lcn,            0,        Logical Channel Number)
         SERVICE_PROPERTY_INT(PID,      PMTPID,        _pmt_pid,        PID_NULL, PMT PID)
-        SERVICE_PROPERTY_INT(uint8_t,  Type,          _type,           0,        Service Type (as declared in service_descriptor))
+        SERVICE_PROPERTY_INT(uint8_t,  TypeDVB,       _type_dvb,       0,        DVB service type (as declared in service_descriptor))
+        SERVICE_PROPERTY_INT(uint8_t,  TypeATSC,      _type_atsc,      0,        ATSC service type (as declared in TVCT or CVCT))
         SERVICE_PROPERTY_INT(uint8_t,  RunningStatus, _running_status, 0,        Running status (as declared in the SDT))
         SERVICE_PROPERTY_INT(bool,     EITsPresent,   _eits_present,   false,    EIT schedule present (as declared in the SDT))
         SERVICE_PROPERTY_INT(bool,     EITpfPresent,  _eitpf_present,  false,    EIT present/following present (as declared in the SDT))
         SERVICE_PROPERTY_INT(bool,     CAControlled,  _ca_controlled,  false,    CA-controlled (as declared in the SDT))
+        SERVICE_PROPERTY_INT(uint16_t, MajorIdATSC,   _major_id_atsc,  0,        ATSC major id (as declared in TVCT or CVCT))
+        SERVICE_PROPERTY_INT(uint16_t, MinorIdATSC,   _minor_id_atsc,  0,        ATSC major id (as declared in TVCT or CVCT))
 
         SERVICE_PROPERTY_STRING(Name,     _name,     Service Name)
         SERVICE_PROPERTY_STRING(Provider, _provider, Provider Name)
@@ -167,18 +170,21 @@ namespace ts {
         //! Can be used as bitfield.
         //!
         enum ServiceField : uint32_t {
-            ID       = 0x0001,  //!< Service id.
-            TSID     = 0x0002,  //!< Transport stream id.
-            ONID     = 0x0004,  //!< Original network id.
-            PMT_PID  = 0x0008,  //!< PMT PID.
-            LCN      = 0x0010,  //!< Logical channel number.
-            TYPE     = 0x0020,  //!< Service type (as defined in service_descriptor).
-            NAME     = 0x0040,  //!< Service name.
-            PROVIDER = 0x0080,  //!< Provider name.
-            EITS     = 0x0100,  //!< EIT schedule present (as declared in the SDT).
-            EITPF    = 0x0200,  //!< EIT present/following present (as declared in the SDT).
-            CA       = 0x0400,  //!< CA-controlled (as declared in the SDT).
-            RUNNING  = 0x0800,  //!< Running status (as declared in the SDT).
+            ID           = 0x0001,  //!< Service id.
+            TSID         = 0x0002,  //!< Transport stream id.
+            ONID         = 0x0004,  //!< Original network id.
+            PMT_PID      = 0x0008,  //!< PMT PID.
+            LCN          = 0x0010,  //!< Logical channel number.
+            TYPE_DVB     = 0x0020,  //!< DVB service type (as defined in service_descriptor).
+            NAME         = 0x0040,  //!< Service name.
+            PROVIDER     = 0x0080,  //!< Provider name.
+            EITS         = 0x0100,  //!< EIT schedule present (as declared in the SDT).
+            EITPF        = 0x0200,  //!< EIT present/following present (as declared in the SDT).
+            CA           = 0x0400,  //!< CA-controlled (as declared in the SDT).
+            RUNNING      = 0x0800,  //!< Running status (as declared in the SDT).
+            TYPE_ATSC    = 0x1000,  //!< ATSC service type (as defined in TVCT or CVCT).
+            MAJORID_ATSC = 0x2000,  //!< ATSC major id (as declared in TVCT or CVCT)).
+            MINORID_ATSC = 0x4000,  //!< ATSC minor id (as declared in TVCT or CVCT)).
         };
 
         //!
@@ -268,13 +274,16 @@ namespace ts {
         Variable<uint16_t> _onid;
         Variable<PID>      _pmt_pid;
         Variable<uint16_t> _lcn;
-        Variable<uint8_t>  _type;
+        Variable<uint8_t>  _type_dvb;
+        Variable<uint8_t>  _type_atsc;
         Variable<UString>  _name;
         Variable<UString>  _provider;
         Variable<bool>     _eits_present;
         Variable<bool>     _eitpf_present;
         Variable<bool>     _ca_controlled;
         Variable<uint8_t>  _running_status;
+        Variable<uint16_t> _major_id_atsc;
+        Variable<uint16_t> _minor_id_atsc;
     };
 
     // Containers

@@ -1,7 +1,7 @@
 //----------------------------------------------------------------------------
 //
 // TSDuck - The MPEG Transport Stream Toolkit
-// Copyright (c) 2005-2018, Thierry Lelegard
+// Copyright (c) 2005-2019, Thierry Lelegard
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -79,4 +79,13 @@ ts::PluginSharedLibrary::PluginSharedLibrary(const UString& filename, Report& re
     new_input = reinterpret_cast<NewInputProfile>(getSymbol("tspNewInput"));
     new_output = reinterpret_cast<NewOutputProfile>(getSymbol("tspNewOutput"));
     new_processor = reinterpret_cast<NewProcessorProfile>(getSymbol("tspNewProcessor"));
+}
+
+
+//----------------------------------------------------------------------------
+// Destructor.
+//----------------------------------------------------------------------------
+
+ts::PluginSharedLibrary::~PluginSharedLibrary()
+{
 }

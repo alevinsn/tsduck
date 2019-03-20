@@ -1,7 +1,7 @@
 //----------------------------------------------------------------------------
 //
 // TSDuck - The MPEG Transport Stream Toolkit
-// Copyright (c) 2005-2018, Thierry Lelegard
+// Copyright (c) 2005-2019, Thierry Lelegard
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -33,6 +33,20 @@
 
 #include "tsOneShotPacketizer.h"
 TSDUCK_SOURCE;
+
+
+//----------------------------------------------------------------------------
+// Constructors and destructors.
+//----------------------------------------------------------------------------
+
+ts::OneShotPacketizer::OneShotPacketizer(PID pid, bool do_stuffing, BitRate bitrate) :
+    CyclingPacketizer(pid, do_stuffing ? ALWAYS : AT_END, bitrate)
+{
+}
+
+ts::OneShotPacketizer::~OneShotPacketizer()
+{
+}
 
 
 //----------------------------------------------------------------------------

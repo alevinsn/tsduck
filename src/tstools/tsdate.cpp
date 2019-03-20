@@ -1,7 +1,7 @@
 //----------------------------------------------------------------------------
 //
 // TSDuck - The MPEG Transport Stream Toolkit
-// Copyright (c) 2005-2018, Thierry Lelegard
+// Copyright (c) 2005-2019, Thierry Lelegard
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -49,6 +49,7 @@ class Options: public ts::Args
 {
 public:
     Options(int argc, char *argv[]);
+    virtual ~Options();
 
     bool        no_tdt;   // Do not try to get a TDT
     bool        no_tot;   // Do not try to get a TOT
@@ -83,6 +84,10 @@ Options::Options(int argc, char *argv[]) :
     no_tot = present(u"notot");
 
     exitOnError();
+}
+
+Options::~Options()
+{
 }
 
 

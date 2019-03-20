@@ -1,7 +1,7 @@
 //----------------------------------------------------------------------------
 //
 // TSDuck - The MPEG Transport Stream Toolkit
-// Copyright (c) 2005-2018, Thierry Lelegard
+// Copyright (c) 2005-2019, Thierry Lelegard
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -41,7 +41,7 @@ const size_t ts::TablesLoggerArgs::DEFAULT_LOG_SIZE;
 
 
 //----------------------------------------------------------------------------
-// Default constructor.
+// Constructors and destructors.
 //----------------------------------------------------------------------------
 
 ts::TablesLoggerArgs::TablesLoggerArgs() :
@@ -81,6 +81,10 @@ ts::TablesLoggerArgs::TablesLoggerArgs() :
     use_current(true),
     use_next(false),
     xml_tweaks()
+{
+}
+
+ts::TablesLoggerArgs::~TablesLoggerArgs()
 {
 }
 

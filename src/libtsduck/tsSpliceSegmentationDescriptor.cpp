@@ -1,7 +1,7 @@
 //----------------------------------------------------------------------------
 //
 // TSDuck - The MPEG Transport Stream Toolkit
-// Copyright (c) 2005-2018, Thierry Lelegard
+// Copyright (c) 2005-2019, Thierry Lelegard
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -38,6 +38,7 @@ TSDUCK_SOURCE;
 #define MY_XML_NAME u"splice_segmentation_descriptor"
 #define MY_DID ts::DID_SPLICE_SEGMENT
 #define MY_TID ts::TID_SCTE35_SIT
+#define MY_STD ts::STD_SCTE
 
 TS_XML_TABSPEC_DESCRIPTOR_FACTORY(ts::SpliceSegmentationDescriptor, MY_XML_NAME, MY_TID);
 TS_ID_DESCRIPTOR_FACTORY(ts::SpliceSegmentationDescriptor, ts::EDID::TableSpecific(MY_DID, MY_TID));
@@ -49,7 +50,7 @@ TS_ID_DESCRIPTOR_DISPLAY(ts::SpliceSegmentationDescriptor::DisplayDescriptor, ts
 //----------------------------------------------------------------------------
 
 ts::SpliceSegmentationDescriptor::SpliceSegmentationDescriptor() :
-    AbstractDescriptor(MY_DID, MY_XML_NAME),
+    AbstractDescriptor(MY_DID, MY_XML_NAME, MY_STD, 0),
     identifier(SPLICE_ID_CUEI),
     segmentation_event_id(0),
     segmentation_event_cancel(false),

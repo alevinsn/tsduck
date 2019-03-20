@@ -1,7 +1,7 @@
 //----------------------------------------------------------------------------
 //
 // TSDuck - The MPEG Transport Stream Toolkit
-// Copyright (c) 2005-2018, Thierry Lelegard
+// Copyright (c) 2005-2019, Thierry Lelegard
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -57,7 +57,7 @@ namespace ts {
         //! a hint, not a guaranteed size. Zero if the content size is unknown.
         //! @return True to proceed, false to abort the transfer.
         //!
-        virtual bool handleWebStart(const WebRequest& request, size_t size) = 0;
+        virtual bool handleWebStart(const WebRequest& request, size_t size);
 
         //!
         //! This hook is invoked when a data chunk is available.
@@ -69,8 +69,15 @@ namespace ts {
         virtual bool handleWebData(const WebRequest& request, const void* data, size_t size) = 0;
 
         //!
+        //! This hook is invoked at the end of the transfer.
+        //! @param [in] request The Web request.
+        //! @return True to indicate success, false to indicate error.
+        //!
+        virtual bool handleWebStop(const WebRequest& request);
+
+        //!
         //! Virtual destructor.
         //!
-        virtual ~WebRequestHandlerInterface() {}
+        virtual ~WebRequestHandlerInterface();
     };
 }

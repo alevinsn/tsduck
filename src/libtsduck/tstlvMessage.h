@@ -1,7 +1,7 @@
 //----------------------------------------------------------------------------
 //
 // TSDuck - The MPEG Transport Stream Toolkit
-// Copyright (c) 2005-2018, Thierry Lelegard
+// Copyright (c) 2005-2019, Thierry Lelegard
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -119,7 +119,7 @@ namespace ts {
             //!
             //! Virtual destructor.
             //!
-            virtual ~Message() {}
+            virtual ~Message();
 
             //!
             //! Dump routine.
@@ -136,24 +136,14 @@ namespace ts {
             //! Protected constructor for subclasses.
             //! @param [in] tag Message tag.
             //!
-            Message(TAG tag) :
-                _has_version(false),
-                _version(0),
-                _tag(tag)
-            {
-            }
+            Message(TAG tag);
 
             //!
             //! Protected constructor for subclasses.
             //! @param [in] protocol_version Protocol version.
             //! @param [in] tag Message tag.
             //!
-            Message(VERSION protocol_version, TAG tag) :
-                _has_version(true),
-                _version(protocol_version),
-                _tag(tag)
-            {
-            }
+            Message(VERSION protocol_version, TAG tag);
 
             //!
             //! Parameter serialization.

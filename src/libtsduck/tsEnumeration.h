@@ -1,7 +1,7 @@
 //----------------------------------------------------------------------------
 //
 // TSDuck - The MPEG Transport Stream Toolkit
-// Copyright (c) 2005-2018, Thierry Lelegard
+// Copyright (c) 2005-2019, Thierry Lelegard
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -83,11 +83,6 @@ namespace ts {
         //! @param [in] values Variable list of name/value pairs.
         //!
         Enumeration(const std::initializer_list<NameValue> values);
-
-        //!
-        //! Virtual destructor
-        //!
-        virtual ~Enumeration() {}
 
         //!
         //! Equality operator.

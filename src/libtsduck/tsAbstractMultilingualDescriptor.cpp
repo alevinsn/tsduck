@@ -1,7 +1,7 @@
 //----------------------------------------------------------------------------
 //
 // TSDuck - The MPEG Transport Stream Toolkit
-// Copyright (c) 2005-2018, Thierry Lelegard
+// Copyright (c) 2005-2019, Thierry Lelegard
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -38,8 +38,8 @@ TSDUCK_SOURCE;
 // Protected constructor for subclasses.
 //----------------------------------------------------------------------------
 
-ts::AbstractMultilingualDescriptor::AbstractMultilingualDescriptor(DID tag, const UChar* xml_name, const UChar* xml_attribute, PDS pds) :
-    AbstractDescriptor(tag, xml_name, pds),
+ts::AbstractMultilingualDescriptor::AbstractMultilingualDescriptor(DID tag, const UChar* xml_name, const UChar* xml_attribute) :
+    AbstractDescriptor(tag, xml_name, STD_DVB, 0),
     entries(),
     _xml_attribute(xml_attribute)
 {
@@ -53,6 +53,19 @@ ts::AbstractMultilingualDescriptor::AbstractMultilingualDescriptor(DID tag, cons
 ts::AbstractMultilingualDescriptor::Entry::Entry(const UString& lang_, const UString& name_) :
     language(lang_),
     name(name_)
+{
+}
+
+
+//----------------------------------------------------------------------------
+// Default implementation of prolog serialization.
+//----------------------------------------------------------------------------
+
+void ts::AbstractMultilingualDescriptor::serializeProlog(const ByteBlockPtr& bbp, const DVBCharset* charset) const
+{
+}
+
+void ts::AbstractMultilingualDescriptor::deserializeProlog(const uint8_t*& data, size_t& size, const DVBCharset* charset)
 {
 }
 

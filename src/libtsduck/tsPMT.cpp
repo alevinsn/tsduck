@@ -1,7 +1,7 @@
 //----------------------------------------------------------------------------
 //
 // TSDuck - The MPEG Transport Stream Toolkit
-// Copyright (c) 2005-2018, Thierry Lelegard
+// Copyright (c) 2005-2019, Thierry Lelegard
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -42,6 +42,7 @@ TSDUCK_SOURCE;
 
 #define MY_XML_NAME u"PMT"
 #define MY_TID ts::TID_PMT
+#define MY_STD ts::STD_MPEG
 
 TS_XML_TABLE_FACTORY(ts::PMT, MY_XML_NAME);
 TS_ID_TABLE_FACTORY(ts::PMT, MY_TID);
@@ -49,11 +50,11 @@ TS_ID_SECTION_DISPLAY(ts::PMT::DisplaySection, MY_TID);
 
 
 //----------------------------------------------------------------------------
-// Default constructor:
+// Constructors
 //----------------------------------------------------------------------------
 
 ts::PMT::PMT(uint8_t version_, bool is_current_, uint16_t service_id_, PID pcr_pid_) :
-    AbstractLongTable(MY_TID, MY_XML_NAME, version_, is_current_),
+    AbstractLongTable(MY_TID, MY_XML_NAME, MY_STD, version_, is_current_),
     service_id(service_id_),
     pcr_pid(pcr_pid_),
     descs(this),
@@ -61,11 +62,6 @@ ts::PMT::PMT(uint8_t version_, bool is_current_, uint16_t service_id_, PID pcr_p
 {
     _is_valid = true;
 }
-
-
-//----------------------------------------------------------------------------
-// Copy constructor.
-//----------------------------------------------------------------------------
 
 ts::PMT::PMT(const PMT& other) :
     AbstractLongTable(other),
@@ -75,11 +71,6 @@ ts::PMT::PMT(const PMT& other) :
     streams(this, other.streams)
 {
 }
-
-
-//----------------------------------------------------------------------------
-// Constructor from a binary table
-//----------------------------------------------------------------------------
 
 ts::PMT::PMT(const BinaryTable& table, const DVBCharset* charset) :
     PMT()
@@ -228,19 +219,22 @@ void ts::PMT::serialize(BinaryTable& table, const DVBCharset* charset) const
 
 bool ts::PMT::Stream::isVideo() const
 {
-    return IsVideoST(stream_type);
+    return IsVideoST(stream_type) || descs.search(DID_HEVC_VIDEO) < descs.count();
 }
 
 bool ts::PMT::Stream::isAudio() const
 {
     // AC-3 or HE-AAC components may have "PES private data" stream type
-    // but are identifier by specific descriptors.
+    // but are identified by specific descriptors.
 
     return IsAudioST(stream_type) ||
         descs.search(DID_DTS) < descs.count() ||
         descs.search(DID_AC3) < descs.count() ||
         descs.search(DID_ENHANCED_AC3) < descs.count() ||
-        descs.search(DID_AAC) < descs.count();
+        descs.search(DID_AAC) < descs.count() ||
+        descs.search(EDID::ExtensionDVB(EDID_AC4)) < descs.count() ||
+        descs.search(EDID::ExtensionDVB(EDID_DTS_NEURAL)) < descs.count() ||
+        descs.search(EDID::ExtensionDVB(EDID_DTS_HD_AUDIO)) < descs.count();
 }
 
 bool ts::PMT::Stream::isSubtitles() const
@@ -294,7 +288,7 @@ bool ts::PMT::Stream::getComponentTag(uint8_t& tag) const
 ts::PID ts::PMT::componentTagToPID(uint8_t tag) const
 {
     // Loop on all components of the service.
-    for (StreamMap::const_iterator it = streams.begin(); it != streams.end(); ++it) {
+    for (auto it = streams.begin(); it != streams.end(); ++it) {
         const PID pid = it->first;
         const PMT::Stream& stream(it->second);
         // Loop on all stream_identifier_descriptors.
@@ -303,6 +297,21 @@ ts::PID ts::PMT::componentTagToPID(uint8_t tag) const
             if (sid.isValid() && sid.component_tag == tag) {
                 return pid;
             }
+        }
+    }
+    return PID_NULL; // not found
+}
+
+
+//----------------------------------------------------------------------------
+// Search the first video PID in the service.
+//----------------------------------------------------------------------------
+
+ts::PID ts::PMT::firstVideoPID() const
+{
+    for (auto it = streams.begin(); it != streams.end(); ++it) {
+        if (it->second.isVideo()) {
+            return it->first;
         }
     }
     return PID_NULL; // not found

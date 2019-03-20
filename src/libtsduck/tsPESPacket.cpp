@@ -1,7 +1,7 @@
 //----------------------------------------------------------------------------
 //
 // TSDuck - The MPEG Transport Stream Toolkit
-// Copyright (c) 2005-2018, Thierry Lelegard
+// Copyright (c) 2005-2019, Thierry Lelegard
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -162,6 +162,60 @@ void ts::PESPacket::clear()
     _source_pid = PID_NULL;
     _stream_type = ST_NULL;
     _data.clear();
+}
+
+
+//----------------------------------------------------------------------------
+// Reload from full binary content.
+//----------------------------------------------------------------------------
+
+void ts::PESPacket::reload(const void* content, size_t content_size, PID source_pid)
+{
+    _source_pid = source_pid;
+    initialize(new ByteBlock(content, content_size));
+}
+
+void ts::PESPacket::reload(const ByteBlock& content, PID source_pid)
+{
+    _source_pid = source_pid;
+    initialize(new ByteBlock(content));
+}
+
+void ts::PESPacket::reload(const ByteBlockPtr& content_ptr, PID source_pid)
+{
+    _source_pid = source_pid;
+    initialize(content_ptr);
+}
+
+
+//----------------------------------------------------------------------------
+// Size of the binary content of the packet.
+//----------------------------------------------------------------------------
+
+size_t ts::PESPacket::size() const
+{
+    if (_is_valid) {
+        // Check if an actual size is specified.
+        const size_t psize = GetUInt16(_data->data() + 4);
+        // When the specified size is zero, get the complete binary data.
+        return psize == 0 ? _data->size() : std::min(psize + 6, _data->size());
+    }
+    else {
+        // Invalid PES packet.
+        return 0;
+    }
+}
+
+
+//----------------------------------------------------------------------------
+// Set the stream id of the PES packet.
+//----------------------------------------------------------------------------
+
+void ts::PESPacket::setStreamId(uint8_t sid)
+{
+    if (_is_valid) {
+        (*_data)[3] = sid;
+    }
 }
 
 

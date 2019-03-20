@@ -1,7 +1,7 @@
 //----------------------------------------------------------------------------
 //
 // TSDuck - The MPEG Transport Stream Toolkit
-// Copyright (c) 2005-2018, Thierry Lelegard, Frederic Peignot
+// Copyright (c) 2005-2019, Thierry Lelegard, Frederic Peignot
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -30,23 +30,19 @@
 #include "tsTelnetConnection.h"
 TSDUCK_SOURCE;
 
-
-//----------------------------------------------------------------------------
-//  Configuration & constants
-//----------------------------------------------------------------------------
-
-const std::string EOL = "\n";
-
-
-//----------------------------------------------------------------------------
-// Constructor
-//----------------------------------------------------------------------------
+namespace {
+    const std::string EOL = "\n";
+}
 
 ts::TelnetConnection::TelnetConnection(const std::string prompt) :
     TCPConnection(),
     _received(0),
     _prompt(prompt),
     _mutex()
+{
+}
+
+ts::TelnetConnection::~TelnetConnection()
 {
 }
 

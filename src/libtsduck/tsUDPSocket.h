@@ -1,7 +1,7 @@
 //----------------------------------------------------------------------------
 //
 // TSDuck - The MPEG Transport Stream Toolkit
-// Copyright (c) 2005-2018, Thierry Lelegard
+// Copyright (c) 2005-2019, Thierry Lelegard
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -286,10 +286,7 @@ namespace ts {
         //! @param [in,out] report Where to report error.
         //! @return True on success, false on error.
         //!
-        virtual bool send(const void* data, size_t size, Report& report = CERR)
-        {
-            return send(data, size, _default_destination, report);
-        }
+        virtual bool send(const void* data, size_t size, Report& report = CERR);
 
         //!
         //! Receive a message.

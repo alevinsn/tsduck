@@ -1,7 +1,7 @@
 //----------------------------------------------------------------------------
 //
 // TSDuck - The MPEG Transport Stream Toolkit
-// Copyright (c) 2005-2018, Thierry Lelegard
+// Copyright (c) 2005-2019, Thierry Lelegard
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -470,6 +470,7 @@ bool ts::WebRequest::downloadToApplication(WebRequestHandlerInterface* handler)
             ok = handler->handleWebStart(*this, _headerContentSize);
             if (ok) {
                 ok = download();
+                ok = handler->handleWebStop(*this) && ok;
             }
             else {
                 _report.debug(u"Web request is aborted by application before transfer");

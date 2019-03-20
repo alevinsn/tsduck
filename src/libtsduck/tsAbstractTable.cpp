@@ -1,7 +1,7 @@
 //----------------------------------------------------------------------------
 //
 // TSDuck - The MPEG Transport Stream Toolkit
-// Copyright (c) 2005-2018, Thierry Lelegard
+// Copyright (c) 2005-2019, Thierry Lelegard
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -32,12 +32,16 @@ TSDUCK_SOURCE;
 
 
 //----------------------------------------------------------------------------
-// Protected constructor for subclasses.
+// Constructors and destructors.
 //----------------------------------------------------------------------------
 
-ts::AbstractTable::AbstractTable(TID tid, const UChar* xml_name) :
-    AbstractSignalization(xml_name),
+ts::AbstractTable::AbstractTable(TID tid, const UChar* xml_name, Standards standards) :
+    AbstractSignalization(xml_name, standards),
     _table_id(tid)
+{
+}
+
+ts::AbstractTable::~AbstractTable()
 {
 }
 

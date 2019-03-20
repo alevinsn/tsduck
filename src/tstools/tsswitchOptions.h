@@ -1,7 +1,7 @@
 //----------------------------------------------------------------------------
 //
 // TSDuck - The MPEG Transport Stream Toolkit
-// Copyright (c) 2005-2018, Thierry Lelegard
+// Copyright (c) 2005-2019, Thierry Lelegard
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -73,6 +73,11 @@ namespace ts {
             //! @param [in] argv Arguments from command line.
             //!
             Options(int argc, char *argv[]);
+
+            //!
+            //! Virtual destructor.
+            //!
+            virtual ~Options();
 
         private:
             // Inaccessible operations.

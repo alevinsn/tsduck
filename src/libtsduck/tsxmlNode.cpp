@@ -1,7 +1,7 @@
 //----------------------------------------------------------------------------
 //
 // TSDuck - The MPEG Transport Stream Toolkit
-// Copyright (c) 2005-2018, Thierry Lelegard
+// Copyright (c) 2005-2019, Thierry Lelegard
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -40,7 +40,7 @@ TSDUCK_SOURCE;
 
 
 //----------------------------------------------------------------------------
-// Node constructor.
+// Constructors and destructors.
 //----------------------------------------------------------------------------
 
 ts::xml::Node::Node(Report& report, size_t line) :
@@ -60,15 +60,24 @@ ts::xml::Node::Node(Node* parent, const UString& value, bool last) :
     reparent(parent, last);
 }
 
-
-//----------------------------------------------------------------------------
-// Node virtual destructor.
-//----------------------------------------------------------------------------
-
 ts::xml::Node::~Node()
 {
     clear();
     reparent(nullptr);
+}
+
+
+//----------------------------------------------------------------------------
+// Simple virtual methods
+//----------------------------------------------------------------------------
+
+void ts::xml::Node::printClose(TextFormatter& output, size_t levels) const
+{
+}
+
+bool ts::xml::Node::stickyOutput() const
+{
+    return false;
 }
 
 

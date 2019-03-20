@@ -1,7 +1,7 @@
 //----------------------------------------------------------------------------
 //
 // TSDuck - The MPEG Transport Stream Toolkit
-// Copyright (c) 2005-2018, Thierry Lelegard
+// Copyright (c) 2005-2019, Thierry Lelegard
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -154,12 +154,12 @@ namespace ts {
         //!
         //! Size in bytes of the so-called "UTF-8 Byte Order Mark".
         //!
-        static const size_type UTF8_BOM_SIZE = 3;
+        static constexpr size_type UTF8_BOM_SIZE = 3;
 
         //!
         //! Maximum size in bytes of an UTF-8 encoded character.
         //!
-        static const size_type UTF8_CHAR_MAX_SIZE = 4;
+        static constexpr size_type UTF8_CHAR_MAX_SIZE = 4;
 
         //!
         //! Default separator string for groups of thousands, a comma.
@@ -174,7 +174,7 @@ namespace ts {
         //!
         //! Default line width for the Hexa() family of methods.
         //!
-        static const size_type DEFAULT_HEXA_LINE_WIDTH = 78;
+        static constexpr size_type DEFAULT_HEXA_LINE_WIDTH = 78;
 
         //!
         //! Flags for the Hexa() family of methods.
@@ -682,7 +682,7 @@ namespace ts {
             return data() + size();
         }
 
-#if defined(TS_CXX17)
+#if defined(TS_CXX17) || defined(DOXYGEN)
         //!
         //! Get the address after the last character in the string (C++17).
         //! @return The address after the last character in the string.
@@ -752,6 +752,36 @@ namespace ts {
         UString toUpper() const;
 
         //!
+        //! Combine all possible diacritical marks.
+        //! All sequences of two characters, letter and non-spacing diacritical marks,
+        //! which can be grouped into once single precombined character are substituted
+        //! with this precombined character.
+        //!
+        void combineDiacritical();
+
+        //!
+        //! Return a string with all possible diacritical marks combined.
+        //! @return A string where all sequences of two characters, letter and non-spacing
+        //! diacritical marks, which can be grouped into once single precombined character
+        //! have been substituted with this precombined character.
+        //!
+        UString toCombinedDiacritical() const;
+
+        //!
+        //! Decompose all precombined characters.
+        //! All precombined characters are replaced by two characters, the base letter and
+        //! the non-spacing diacritical mark.
+        //!
+        void decomposeDiacritical();
+
+        //!
+        //! Return a string with all precombined characters decomposed.
+        //! @return A string where all precombined characters are replaced by two characters,
+        //! the base letter and the non-spacing diacritical mark.
+        //!
+        UString toDecomposedDiacritical() const;
+
+        //!
         //! Remove all occurences of a substring.
         //! @param [in] substr Substring to remove.
         //!
@@ -785,12 +815,27 @@ namespace ts {
         void substitute(const UString& value, const UString& replacement);
 
         //!
+        //! Substitute all occurences of a character with another one.
+        //! @param [in] value Value to search.
+        //! @param [in] replacement Replacement for @a value.
+        //!
+        void substitute(UChar value, UChar replacement);
+
+        //!
         //! Return a copy of the string where all occurences of a string are substituted with another one.
         //! @param [in] value Value to search.
         //! @param [in] replacement Replacement string for @a value.
         //! @return A copy to this string where all occurences of @a value have been replaced by @a replace.
         //!
         UString toSubstituted(const UString& value, const UString& replacement) const;
+
+        //!
+        //! Return a copy of the string where all occurences of a character are substituted with another one.
+        //! @param [in] value Value to search.
+        //! @param [in] replacement Replacement for @a value.
+        //! @return A copy to this string where all occurences of @a value have been replaced by @a replace.
+        //!
+        UString toSubstituted(UChar value, UChar replacement) const;
 
         //!
         //! Remove a prefix in string.
@@ -845,6 +890,22 @@ namespace ts {
         //! @return True if this string ends with @a suffix, false otherwise.
         //!
         bool endWith(const UString& suffix, CaseSensitivity cs = CASE_SENSITIVE) const;
+
+        //!
+        //! Compute the number of similar leading characters in two strings.
+        //! @param [in] str A string to compare with @a this string.
+        //! @param [in] cs Indicate if the comparison is case-sensitive.
+        //! @return The number of identical leading characters in @a str and @a this string.
+        //!
+        size_t commonPrefixSize(const UString& str, CaseSensitivity cs = CASE_SENSITIVE) const;
+
+        //!
+        //! Compute the number of similar trailing characters in two strings.
+        //! @param [in] str A string to compare with @a this string.
+        //! @param [in] cs Indicate if the comparison is case-sensitive.
+        //! @return The number of identical trailing characters in @a str and @a this string.
+        //!
+        size_t commonSuffixSize(const UString& str, CaseSensitivity cs = CASE_SENSITIVE) const;
 
         //!
         //! Split the string into segments based on a separator character (comma by default).
@@ -1207,6 +1268,16 @@ namespace ts {
         //!
         template <class CONTAINER>
         typename CONTAINER::const_iterator findSimilar(const CONTAINER& container) const;
+
+        //!
+        //! Save this string into a file, in UTF-8 format.
+        //! @param [in] fileName The name of the text file where to save this string.
+        //! @param [in] append If true, append this string at the end of the file.
+        //! If false (the default), overwrite the file if it already existed.
+        //! @param [in] enforceLastLineFeed If true and this string does not end with a line feed, force a final line feed.
+        //! @return True on success, false on error (mostly file errors).
+        //!
+        bool save(const UString& fileName, bool append = false, bool enforceLastLineFeed = false) const;
 
         //!
         //! Save strings from a container into a file, in UTF-8 format, one per line.

@@ -1,7 +1,7 @@
 //----------------------------------------------------------------------------
 //
 // TSDuck - The MPEG Transport Stream Toolkit
-// Copyright (c) 2005-2018, Thierry Lelegard
+// Copyright (c) 2005-2019, Thierry Lelegard
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -85,9 +85,8 @@ namespace ts {
         //! @param [in] tag Descriptor tag.
         //! @param [in] xml_name Descriptor name, as used in XML structures.
         //! @param [in] xml_attribute XML attribute name for the "name" fields.
-        //! @param [in] pds Required private data specifier if this is a private descriptor.
         //!
-        AbstractMultilingualDescriptor(DID tag, const UChar* xml_name, const UChar* xml_attribute, PDS pds = 0);
+        AbstractMultilingualDescriptor(DID tag, const UChar* xml_name, const UChar* xml_attribute);
 
         //!
         //! The subclass serializes the "prolog".
@@ -95,7 +94,7 @@ namespace ts {
         //! @param [in,out] bbp Serialize the prolog in this byte block.
         //! @param [in] charset If not zero, default character set to use.
         //!
-        virtual void serializeProlog(const ByteBlockPtr& bbp, const DVBCharset* charset) const {}
+        virtual void serializeProlog(const ByteBlockPtr& bbp, const DVBCharset* charset) const;
 
         //!
         //! The subclass deserializes the "prolog".
@@ -105,7 +104,7 @@ namespace ts {
         //! @param [in,out] size Remaining descriptor size, including prolog. Updated after deserialization.
         //! @param [in] charset If not zero, default character set to use.
         //!
-        virtual void deserializeProlog(const uint8_t*& data, size_t& size, const DVBCharset* charset) {}
+        virtual void deserializeProlog(const uint8_t*& data, size_t& size, const DVBCharset* charset);
 
     private:
         const UChar* _xml_attribute;

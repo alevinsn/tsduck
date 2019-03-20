@@ -1,7 +1,7 @@
 //----------------------------------------------------------------------------
 //
 // TSDuck - The MPEG Transport Stream Toolkit
-// Copyright (c) 2005-2018, Thierry Lelegard
+// Copyright (c) 2005-2019, Thierry Lelegard
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -35,6 +35,7 @@ TSDUCK_SOURCE;
 
 #define MY_XML_NAME u"time_slice_fec_identifier_descriptor"
 #define MY_DID ts::DID_TIME_SLICE_FEC_ID
+#define MY_STD ts::STD_DVB
 
 TS_XML_DESCRIPTOR_FACTORY(ts::TimeSliceFECIdentifierDescriptor, MY_XML_NAME);
 TS_ID_DESCRIPTOR_FACTORY(ts::TimeSliceFECIdentifierDescriptor, ts::EDID::Standard(MY_DID));
@@ -42,11 +43,11 @@ TS_ID_DESCRIPTOR_DISPLAY(ts::TimeSliceFECIdentifierDescriptor::DisplayDescriptor
 
 
 //----------------------------------------------------------------------------
-// Constructor.
+// Constructors
 //----------------------------------------------------------------------------
 
 ts::TimeSliceFECIdentifierDescriptor::TimeSliceFECIdentifierDescriptor() :
-    AbstractDescriptor(MY_DID, MY_XML_NAME),
+    AbstractDescriptor(MY_DID, MY_XML_NAME, MY_STD, 0),
     time_slicing(false),
     mpe_fec(0),
     frame_size(0),

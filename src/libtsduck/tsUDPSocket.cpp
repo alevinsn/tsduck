@@ -1,7 +1,7 @@
 //----------------------------------------------------------------------------
 //
 // TSDuck - The MPEG Transport Stream Toolkit
-// Copyright (c) 2005-2018, Thierry Lelegard
+// Copyright (c) 2005-2019, Thierry Lelegard
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -384,6 +384,11 @@ bool ts::UDPSocket::dropMembership(Report& report)
 //----------------------------------------------------------------------------
 // Send a message to a destination address and port.
 //----------------------------------------------------------------------------
+
+bool ts::UDPSocket::send(const void* data, size_t size, Report& report)
+{
+    return send(data, size, _default_destination, report);
+}
 
 bool ts::UDPSocket::send(const void* data, size_t size, const SocketAddress& dest, Report& report)
 {

@@ -1,7 +1,7 @@
 //----------------------------------------------------------------------------
 //
 // TSDuck - The MPEG Transport Stream Toolkit
-// Copyright (c) 2005-2018, Thierry Lelegard
+// Copyright (c) 2005-2019, Thierry Lelegard
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -37,6 +37,7 @@ TSDUCK_SOURCE;
 #define MY_XML_NAME u"splice_DTMF_descriptor"
 #define MY_DID ts::DID_SPLICE_DTMF
 #define MY_TID ts::TID_SCTE35_SIT
+#define MY_STD ts::STD_SCTE
 
 TS_XML_TABSPEC_DESCRIPTOR_FACTORY(ts::SpliceDTMFDescriptor, MY_XML_NAME, MY_TID);
 TS_ID_DESCRIPTOR_FACTORY(ts::SpliceDTMFDescriptor, ts::EDID::TableSpecific(MY_DID, MY_TID));
@@ -48,7 +49,7 @@ TS_ID_DESCRIPTOR_DISPLAY(ts::SpliceDTMFDescriptor::DisplayDescriptor, ts::EDID::
 //----------------------------------------------------------------------------
 
 ts::SpliceDTMFDescriptor::SpliceDTMFDescriptor() :
-    AbstractDescriptor(MY_DID, MY_XML_NAME),
+    AbstractDescriptor(MY_DID, MY_XML_NAME, MY_STD, 0),
     identifier(SPLICE_ID_CUEI),
     preroll(0),
     DTMF()

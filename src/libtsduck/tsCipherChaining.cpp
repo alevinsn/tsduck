@@ -1,7 +1,7 @@
 //----------------------------------------------------------------------------
 //
 // TSDuck - The MPEG Transport Stream Toolkit
-// Copyright (c) 2005-2018, Thierry Lelegard
+// Copyright (c) 2005-2019, Thierry Lelegard
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -43,6 +43,21 @@ ts::CipherChaining::CipherChaining (BlockCipher* cipher, size_t iv_min_blocks, s
     iv(iv_max_blocks * block_size),
     work(work_blocks * block_size)
 {
+}
+
+
+//----------------------------------------------------------------------------
+// Default implementation of virtual methods.
+//----------------------------------------------------------------------------
+
+size_t ts::CipherChaining::minIVSize() const
+{
+    return iv_min_size;
+}
+
+size_t ts::CipherChaining::maxIVSize() const
+{
+    return iv_max_size;
 }
 
 

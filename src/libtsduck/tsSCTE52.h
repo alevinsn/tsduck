@@ -1,7 +1,7 @@
 //----------------------------------------------------------------------------
 //
 // TSDuck - The MPEG Transport Stream Toolkit
-// Copyright (c) 2005-2018, Thierry Lelegard
+// Copyright (c) 2005-2019, Thierry Lelegard
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -57,11 +57,11 @@ namespace ts {
         SCTE52_2003() : DVS042<DES>() {}
 
         // Implementation of BlockCipher interface.
-        virtual UString name() const override {return u"ANSI/SCTE 52 (2003)";}
+        virtual UString name() const override;
 
     private:
         // The IV are identical, there is no specific IV for short blocks.
-        virtual bool setShortIV(const void* iv_, size_t iv_length) override { return DVS042<DES>::setShortIV(iv_, iv_length); }
+        virtual bool setShortIV(const void* iv_, size_t iv_length) override;
     };
 
     //!
@@ -84,6 +84,6 @@ namespace ts {
         SCTE52_2008() : DVS042<DES>() {}
 
         // Implementation of BlockCipher interface.
-        virtual UString name() const override {return u"ANSI/SCTE 52 (2008)";}
+        virtual UString name() const override;
     };
 }

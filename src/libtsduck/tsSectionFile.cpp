@@ -1,7 +1,7 @@
 //----------------------------------------------------------------------------
 //
 // TSDuck - The MPEG Transport Stream Toolkit
-// Copyright (c) 2005-2018, Thierry Lelegard
+// Copyright (c) 2005-2019, Thierry Lelegard
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -301,7 +301,7 @@ bool ts::SectionFile::parseDocument(const xml::Document& doc)
 {
     // Load the XML model for TSDuck files. Search it in TSDuck directory.
     xml::Document model(doc.report());
-    if (!model.load(u"tsduck.xml", true)) {
+    if (!model.load(u"tsduck.tables.model.xml", true)) {
         doc.report().error(u"Model for TSDuck XML files not found");
         return false;
     }

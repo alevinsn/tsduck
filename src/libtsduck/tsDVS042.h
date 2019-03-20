@@ -1,7 +1,7 @@
 //----------------------------------------------------------------------------
 //
 // TSDuck - The MPEG Transport Stream Toolkit
-// Copyright (c) 2005-2018, Thierry Lelegard
+// Copyright (c) 2005-2019, Thierry Lelegard
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -83,16 +83,16 @@ namespace ts {
         // from our template class. We need explicit copydoc directives.
 
         //! @copydoc ts::CipherChaining::minMessageSize()
-        virtual size_t minMessageSize() const override {return 0;}
+        virtual size_t minMessageSize() const override;
 
         //! @copydoc ts::CipherChaining::residueAllowed()
-        virtual bool residueAllowed() const override {return true;}
+        virtual bool residueAllowed() const override;
 
         //! @copydoc ts::CipherChaining::setIV()
         virtual bool setIV(const void* iv, size_t iv_length) override;
 
         //! @copydoc ts::BlockCipher::name()
-        virtual UString name() const override {return this->algo == nullptr ? UString() : this->algo->name() + u"-DVS042";}
+        virtual UString name() const override;
 
         //! @copydoc ts::BlockCipher::encrypt()
         virtual bool encrypt(const void* plain, size_t plain_length,

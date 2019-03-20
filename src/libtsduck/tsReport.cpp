@@ -1,7 +1,7 @@
 //----------------------------------------------------------------------------
 //
 // TSDuck - The MPEG Transport Stream Toolkit
-// Copyright (c) 2005-2018, Thierry Lelegard
+// Copyright (c) 2005-2019, Thierry Lelegard
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -34,7 +34,7 @@
 #include "tsReport.h"
 TSDUCK_SOURCE;
 
-#if defined (TS_NEED_STATIC_CONST_DEFINITIONS)
+#if defined(TS_NEED_STATIC_CONST_DEFINITIONS)
 const int ts::Severity::Fatal;
 const int ts::Severity::Severe;
 const int ts::Severity::Error;
@@ -46,11 +46,15 @@ const int ts::Severity::Debug;
 
 
 //----------------------------------------------------------------------------
-// Constructor.
+// Constructors and destructors.
 //----------------------------------------------------------------------------
 
 ts::Report::Report(int max_severity) :
     _max_severity(max_severity)
+{
+}
+
+ts::Report::~Report()
 {
 }
 

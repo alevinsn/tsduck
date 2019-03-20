@@ -1,7 +1,7 @@
 //----------------------------------------------------------------------------
 //
 // TSDuck - The MPEG Transport Stream Toolkit
-// Copyright (c) 2005-2018, Thierry Lelegard
+// Copyright (c) 2005-2019, Thierry Lelegard
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -34,6 +34,7 @@
 
 #pragma once
 #include "tsByteBlock.h"
+#include "tsMPEG.h"
 #include "tsxml.h"
 
 //!
@@ -76,6 +77,12 @@ namespace ts {
         }
 
         //!
+        //! Get the list of standards which define this structure.
+        //! @return A bit mask of standards.
+        //!
+        Standards standards() const { return _standards; }
+
+        //!
         //! Get the XMl node name representing this table or descriptor.
         //! @return The XML node name.
         //!
@@ -108,7 +115,7 @@ namespace ts {
         //!
         //! Virtual destructor
         //!
-        virtual ~AbstractSignalization() {}
+        virtual ~AbstractSignalization();
 
     protected:
         //!
@@ -124,8 +131,9 @@ namespace ts {
         //!
         //! Protected constructor for subclasses.
         //! @param [in] xml_name Table or descriptor name, as used in XML structures.
+        //! @param [in] standards A bit mask of standards which define this structure.
         //!
-        AbstractSignalization(const UChar* xml_name);
+        AbstractSignalization(const UChar* xml_name, Standards standards);
 
         //!
         //! Copy constructor.
@@ -155,7 +163,7 @@ namespace ts {
         //!
         //! @param [in,out] root The root node for the new XML tree.
         //!
-        virtual void buildXML(xml::Element* root) const {}
+        virtual void buildXML(xml::Element* root) const;
 
         //!
         //! Check that an XML element has the right name for this table.
@@ -187,6 +195,8 @@ namespace ts {
         }
 
     private:
+        Standards _standards; // List of standards which define this structure.
+
         // Unreachable constructors and operators.
         AbstractSignalization() = delete;
     };

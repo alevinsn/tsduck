@@ -1,7 +1,7 @@
 //----------------------------------------------------------------------------
 //
 //  TSDuck - The MPEG Transport Stream Toolkit
-//  Copyright (c) 2005-2018, Thierry Lelegard
+//  Copyright (c) 2005-2019, Thierry Lelegard
 //  All rights reserved.
 //
 //  Redistribution and use in source and binary forms, with or without
@@ -37,7 +37,7 @@ TSDUCK_SOURCE;
 
 
 //----------------------------------------------------------------------------
-// Constructors.
+// Constructors and destructors.
 //----------------------------------------------------------------------------
 
 ts::TablesDisplayArgs::TablesDisplayArgs() :
@@ -47,6 +47,10 @@ ts::TablesDisplayArgs::TablesDisplayArgs() :
     min_nested_tlv(0),
     default_pds(0),
     default_charset(nullptr)
+{
+}
+
+ts::TablesDisplayArgs::~TablesDisplayArgs()
 {
 }
 

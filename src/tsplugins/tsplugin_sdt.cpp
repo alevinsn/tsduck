@@ -1,7 +1,7 @@
 //----------------------------------------------------------------------------
 //
 // TSDuck - The MPEG Transport Stream Toolkit
-// Copyright (c) 2005-2018, Thierry Lelegard
+// Copyright (c) 2005-2019, Thierry Lelegard
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -189,7 +189,7 @@ bool ts::SDTPlugin::start()
         _service.setTSId(intValue<uint16_t>(u"ts-id"));
     }
     if (present(u"type")) {
-        _service.setType(intValue<uint8_t>(u"type"));
+        _service.setTypeDVB(intValue<uint8_t>(u"type"));
     }
 
     // Start superclass.
@@ -281,8 +281,8 @@ void ts::SDTPlugin::modifyTable(BinaryTable& table, bool& is_target, bool& reins
         if (_service.hasRunningStatus()) {
             sv.running_status = _service.getRunningStatus();
         }
-        if (_service.hasType()) {
-            sv.setType(_service.getType());
+        if (_service.hasTypeDVB()) {
+            sv.setType(_service.getTypeDVB());
         }
     }
 

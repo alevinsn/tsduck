@@ -1,7 +1,7 @@
 //----------------------------------------------------------------------------
 //
 // TSDuck - The MPEG Transport Stream Toolkit
-// Copyright (c) 2005-2018, Thierry Lelegard
+// Copyright (c) 2005-2019, Thierry Lelegard
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -69,8 +69,10 @@ void ts::tsp::ProcessorExecutor::main()
     do {
         // Wait for packets to process
 
-        size_t pkt_first, pkt_cnt;
-        waitWork(pkt_first, pkt_cnt, _tsp_bitrate, input_end, aborted);
+        size_t pkt_first = 0;
+        size_t pkt_cnt = 0;
+        bool timeout = false;
+        waitWork(pkt_first, pkt_cnt, _tsp_bitrate, input_end, aborted, timeout);
 
         // If bit rate was never modified by the plugin, always copy the
         // input bitrate as output bitrate. Otherwise, keep previous
@@ -78,6 +80,14 @@ void ts::tsp::ProcessorExecutor::main()
 
         if (bitrate_never_modified) {
             output_bitrate = _tsp_bitrate;
+        }
+
+        // In case of abort on timeout, notify previous and next plugin, then exit.
+
+        if (timeout) {
+            passPackets(0, output_bitrate, true, true);
+            aborted = true;
+            break;
         }
 
         // If next processor has aborted, abort as well.
@@ -109,13 +119,15 @@ void ts::tsp::ProcessorExecutor::main()
             pkt_done++;
             pkt_flush++;
 
-            // If the packet has not already been dropped by a previous
-            // packet processor, apply the processing routine to the packet
-
-            if (pkt->b[0] != 0) {
-
+            if (pkt->b[0] == 0) {
+                // The packet has already been dropped by a previous packet processor.
+                addNonPluginPackets(1);
+            }
+            else {
+                // Apply the processing routine to the packet
                 bool bitrate_changed = false;
                 ProcessorPlugin::Status status = _processor->processPacket(*pkt, flush_request, bitrate_changed);
+                addPluginPackets(1);
 
                 // Use the returned status
                 switch (status) {
@@ -157,8 +169,6 @@ void ts::tsp::ProcessorExecutor::main()
                 }
             }
 
-            addTotalPackets(1);
-
             // Do not wait to process pkt_cnt packets before notifying
             // the next processor. Perform periodic flush to avoid waiting
             // too long before two output operations.
@@ -175,5 +185,5 @@ void ts::tsp::ProcessorExecutor::main()
     _processor->stop();
 
     debug(u"packet processing thread %s after %'d packets, %'d passed, %'d dropped, %'d nullified",
-          {aborted ? u"aborted" : u"terminated", totalPackets(), passed_packets, dropped_packets, nullified_packets});
+          {aborted ? u"aborted" : u"terminated", pluginPackets(), passed_packets, dropped_packets, nullified_packets});
 }

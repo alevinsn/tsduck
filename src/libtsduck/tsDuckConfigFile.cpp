@@ -1,7 +1,7 @@
 //----------------------------------------------------------------------------
 //
 // TSDuck - The MPEG Transport Stream Toolkit
-// Copyright (c) 2005-2018, Thierry Lelegard
+// Copyright (c) 2005-2019, Thierry Lelegard
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -38,11 +38,16 @@ TS_DEFINE_SINGLETON(ts::DuckConfigFile);
 
 //----------------------------------------------------------------------------
 // Default constructor.
-// Load file using UNIX style, ignore errors.
+// On Windows, we use the legacy file name (same as Unix) as fallback.
 //----------------------------------------------------------------------------
 
 ts::DuckConfigFile::DuckConfigFile() :
-    ConfigFile(DefaultFileName(UNIX_STYLE, u"tsduck"), NULLREP),
+    ConfigFile(
+        #if defined(TS_WINDOWS)
+        GetEnvironment(u"APPDATA") + u"\\tsduck\\tsduck.ini",
+        #endif
+        (UserHomeDirectory() + PathSeparator) + u".tsduck",
+        NULLREP),
     _appName(PathPrefix(BaseName(ExecutableFile())).toLower()),
     _appSection(section(_appName)),
     _mainSection(section(u""))

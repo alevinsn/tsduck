@@ -1,7 +1,7 @@
 //----------------------------------------------------------------------------
 //
 // TSDuck - The MPEG Transport Stream Toolkit
-// Copyright (c) 2005-2018, Thierry Lelegard
+// Copyright (c) 2005-2019, Thierry Lelegard
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -64,8 +64,9 @@ namespace ts {
         class ServiceDesc: public Service
         {
         public:
-            // Constructor
+            // Constructor, destructor.
             ServiceDesc();
+            virtual ~ServiceDesc();
 
             // Public fields
             SectionCounter eitpf_count;
@@ -143,6 +144,10 @@ ts::EITPlugin::ServiceDesc::ServiceDesc() :
     eitpf_count(0),
     eits_count(0),
     max_time(0)
+{
+}
+
+ts::EITPlugin::ServiceDesc::~ServiceDesc()
 {
 }
 
@@ -331,7 +336,7 @@ void ts::EITPlugin::handleTable(SectionDemux& demux, const BinaryTable& table)
                     for (SDT::ServiceMap::const_iterator it = sdt.services.begin(); it != sdt.services.end(); ++it) {
                         ServiceDesc& serv(getServiceDesc(sdt.ts_id, it->first));
                         serv.setONId(sdt.onetw_id);
-                        serv.setType(it->second.serviceType());
+                        serv.setTypeDVB(it->second.serviceType());
                         serv.setName(it->second.serviceName());
                         serv.setProvider(it->second.providerName());
                         serv.setEITsPresent(it->second.EITs_present);

@@ -1,7 +1,7 @@
 //----------------------------------------------------------------------------
 //
 // TSDuck - The MPEG Transport Stream Toolkit
-// Copyright (c) 2005-2018, Thierry Lelegard
+// Copyright (c) 2005-2019, Thierry Lelegard
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -37,7 +37,7 @@ TSDUCK_SOURCE;
 
 
 //----------------------------------------------------------------------------
-// Constructor
+// Constructors and destructors.
 //----------------------------------------------------------------------------
 
 ts::Packetizer::Packetizer(PID pid, SectionProviderInterface* provider) :
@@ -49,6 +49,10 @@ ts::Packetizer::Packetizer(PID pid, SectionProviderInterface* provider) :
     _packet_count(0),
     _section_out_count(0),
     _section_in_count(0)
+{
+}
+
+ts::Packetizer::~Packetizer()
 {
 }
 

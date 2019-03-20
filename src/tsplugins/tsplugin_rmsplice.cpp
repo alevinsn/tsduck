@@ -1,7 +1,7 @@
 //----------------------------------------------------------------------------
 //
 // TSDuck - The MPEG Transport Stream Toolkit
-// Copyright (c) 2005-2018, Thierry Lelegard
+// Copyright (c) 2005-2019, Thierry Lelegard
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -634,10 +634,10 @@ ts::ProcessorPlugin::Status ts::RMSplicePlugin::processPacket(TSPacket& pkt, boo
                     pkt.setDTS((pkt.getDTS() - state.totalAdjust) & PTS_DTS_MASK);
                 }
                 if (pkt.hasPCR()) {
-                    pkt.setPCR((pkt.getPCR() - state.totalAdjust * SYSTEM_CLOCK_SUBFACTOR) & PCR_MASK);
+                    pkt.setPCR(pkt.getPCR() - state.totalAdjust * SYSTEM_CLOCK_SUBFACTOR);
                 }
                 if (pkt.hasOPCR()) {
-                    pkt.setOPCR((pkt.getOPCR() - state.totalAdjust * SYSTEM_CLOCK_SUBFACTOR) & PCR_MASK);
+                    pkt.setOPCR(pkt.getOPCR() - state.totalAdjust * SYSTEM_CLOCK_SUBFACTOR);
                 }
             }
             // Fix continuity counters.

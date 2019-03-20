@@ -40,6 +40,8 @@
 namespace ts {
     //!
     //! Representation of an Application Information Table (AIT)
+    //!
+    //! @see ETSI TS 101 812, 10.4.6.
     //! @ingroup table
     //!
     class TSDUCKDLL AIT : public AbstractLongTable
@@ -100,6 +102,13 @@ namespace ts {
         //! @param [in] other Other instance to copy.
         //!
         AIT(const AIT& other);
+
+        //!
+        //! Assignment operator.
+        //! @param [in] other Other instance to copy.
+        //! @return A reference to this object.
+        //!
+        AIT& operator=(const AIT& other) = default;
 
         //!
         //! Constructor from a binary table.

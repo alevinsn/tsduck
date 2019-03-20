@@ -1,7 +1,7 @@
 //----------------------------------------------------------------------------
 //
 // TSDuck - The MPEG Transport Stream Toolkit
-// Copyright (c) 2005-2018, Thierry Lelegard
+// Copyright (c) 2005-2019, Thierry Lelegard
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -41,7 +41,7 @@ TS_ID_DESCRIPTOR_DISPLAY(ts::MultilingualNetworkNameDescriptor::DisplayDescripto
 
 
 //----------------------------------------------------------------------------
-// Default constructor:
+// Constructors and destructors.
 //----------------------------------------------------------------------------
 
 ts::MultilingualNetworkNameDescriptor::MultilingualNetworkNameDescriptor() :
@@ -50,13 +50,12 @@ ts::MultilingualNetworkNameDescriptor::MultilingualNetworkNameDescriptor() :
     _is_valid = true;
 }
 
-
-//----------------------------------------------------------------------------
-// Constructor from a binary descriptor
-//----------------------------------------------------------------------------
-
 ts::MultilingualNetworkNameDescriptor::MultilingualNetworkNameDescriptor(const Descriptor& desc, const DVBCharset* charset) :
     MultilingualNetworkNameDescriptor()
 {
     deserialize(desc, charset);
+}
+
+ts::MultilingualNetworkNameDescriptor::~MultilingualNetworkNameDescriptor()
+{
 }

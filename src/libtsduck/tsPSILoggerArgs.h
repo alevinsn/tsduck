@@ -1,7 +1,7 @@
 //----------------------------------------------------------------------------
 //
 // TSDuck - The MPEG Transport Stream Toolkit
-// Copyright (c) 2005-2018, Thierry Lelegard
+// Copyright (c) 2005-2019, Thierry Lelegard
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -51,7 +51,7 @@ namespace ts {
         //!
         //! Virtual destructor.
         //!
-        virtual ~PSILoggerArgs() {}
+        virtual ~PSILoggerArgs();
 
         // Public fields, by options.
         bool    all_versions;   //!< Display all versions of PSI tables.

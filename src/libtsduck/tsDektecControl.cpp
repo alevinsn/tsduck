@@ -1,7 +1,7 @@
 //----------------------------------------------------------------------------
 //
 // TSDuck - The MPEG Transport Stream Toolkit
-// Copyright (c) 2005-2018, Thierry Lelegard
+// Copyright (c) 2005-2019, Thierry Lelegard
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -117,6 +117,15 @@ ts::DektecControl::DektecControl(int argc, char *argv[]) :
     _wait_sec   = intValue(u"wait", _set_led ? 5 : 0);
 
     exitOnError();
+}
+
+
+//----------------------------------------------------------------------------
+// Destructor.
+//----------------------------------------------------------------------------
+
+ts::DektecControl::~DektecControl()
+{
 }
 
 

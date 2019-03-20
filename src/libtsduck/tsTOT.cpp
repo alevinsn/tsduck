@@ -1,7 +1,7 @@
 //----------------------------------------------------------------------------
 //
 // TSDuck - The MPEG Transport Stream Toolkit
-// Copyright (c) 2005-2018, Thierry Lelegard
+// Copyright (c) 2005-2019, Thierry Lelegard
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -43,6 +43,7 @@ TSDUCK_SOURCE;
 
 #define MY_XML_NAME u"TOT"
 #define MY_TID ts::TID_TOT
+#define MY_STD ts::STD_DVB
 
 TS_XML_TABLE_FACTORY(ts::TOT, MY_XML_NAME);
 TS_ID_TABLE_FACTORY(ts::TOT, MY_TID);
@@ -54,7 +55,7 @@ TS_ID_SECTION_DISPLAY(ts::TOT::DisplaySection, MY_TID);
 //----------------------------------------------------------------------------
 
 ts::TOT::TOT(const Time& utc_time_) :
-    AbstractTable(MY_TID, MY_XML_NAME),
+    AbstractTable(MY_TID, MY_XML_NAME, MY_STD),
     utc_time(utc_time_),
     regions(),
     descs(this)

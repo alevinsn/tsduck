@@ -1,7 +1,7 @@
 //----------------------------------------------------------------------------
 //
 // TSDuck - The MPEG Transport Stream Toolkit
-// Copyright (c) 2005-2018, Thierry Lelegard
+// Copyright (c) 2005-2019, Thierry Lelegard
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -39,6 +39,7 @@ TSDUCK_SOURCE;
 
 #define MY_XML_NAME u"TSDT"
 #define MY_TID ts::TID_TSDT
+#define MY_STD ts::STD_MPEG
 
 TS_XML_TABLE_FACTORY(ts::TSDT, MY_XML_NAME);
 TS_ID_TABLE_FACTORY(ts::TSDT, MY_TID);
@@ -46,20 +47,24 @@ TS_ID_SECTION_DISPLAY(ts::TSDT::DisplaySection, MY_TID);
 
 
 //----------------------------------------------------------------------------
-// Constructors
+// Constructors and destructors
 //----------------------------------------------------------------------------
 
 ts::TSDT::TSDT(uint8_t vers, bool cur) :
-    AbstractDescriptorsTable(MY_TID, MY_XML_NAME, 0xFFFF, vers, cur)
+    AbstractDescriptorsTable(MY_TID, MY_XML_NAME, MY_STD, 0xFFFF, vers, cur)
 {
 }
 
 ts::TSDT::TSDT(const BinaryTable& table, const DVBCharset* charset) :
-    AbstractDescriptorsTable(MY_TID, MY_XML_NAME, table, charset)
+    AbstractDescriptorsTable(MY_TID, MY_XML_NAME, MY_STD, table, charset)
 {
 }
 
 ts::TSDT::TSDT(const ts::TSDT& other) :
     AbstractDescriptorsTable(other)
+{
+}
+
+ts::TSDT::~TSDT()
 {
 }

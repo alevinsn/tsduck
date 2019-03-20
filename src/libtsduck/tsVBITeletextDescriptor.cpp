@@ -1,7 +1,7 @@
 //----------------------------------------------------------------------------
 //
 // TSDuck - The MPEG Transport Stream Toolkit
-// Copyright (c) 2005-2018, Thierry Lelegard
+// Copyright (c) 2005-2019, Thierry Lelegard
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -26,10 +26,6 @@
 // THE POSSIBILITY OF SUCH DAMAGE.
 //
 //----------------------------------------------------------------------------
-//
-//  Representation of a VBI_teletext_descriptor
-//
-//----------------------------------------------------------------------------
 
 #include "tsVBITeletextDescriptor.h"
 #include "tsTablesDisplay.h"
@@ -38,6 +34,7 @@ TSDUCK_SOURCE;
 
 #define MY_XML_NAME u"VBI_teletext_descriptor"
 #define MY_DID ts::DID_VBI_TELETEXT
+#define MY_STD ts::STD_DVB
 
 TS_XML_DESCRIPTOR_FACTORY(ts::VBITeletextDescriptor, MY_XML_NAME);
 TS_ID_DESCRIPTOR_FACTORY(ts::VBITeletextDescriptor, ts::EDID::Standard(MY_DID));
@@ -45,17 +42,21 @@ TS_ID_DESCRIPTOR_DISPLAY(ts::VBITeletextDescriptor::DisplayDescriptor, ts::EDID:
 
 
 //----------------------------------------------------------------------------
-// Constructors.
+// Constructors and destructors.
 //----------------------------------------------------------------------------
 
 ts::VBITeletextDescriptor::VBITeletextDescriptor() :
-    TeletextDescriptor(MY_DID, MY_XML_NAME)
+    TeletextDescriptor(MY_DID, MY_XML_NAME, MY_STD, 0)
 {
     _is_valid = true;
 }
 
 ts::VBITeletextDescriptor::VBITeletextDescriptor(const Descriptor& bin, const DVBCharset* charset) :
-    TeletextDescriptor(MY_DID, MY_XML_NAME)
+    VBITeletextDescriptor()
 {
     deserialize(bin, charset);
+}
+
+ts::VBITeletextDescriptor::~VBITeletextDescriptor()
+{
 }

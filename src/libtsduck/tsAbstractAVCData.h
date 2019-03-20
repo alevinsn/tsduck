@@ -1,7 +1,7 @@
 //----------------------------------------------------------------------------
 //
 // TSDuck - The MPEG Transport Stream Toolkit
-// Copyright (c) 2005-2018, Thierry Lelegard
+// Copyright (c) 2005-2019, Thierry Lelegard
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -55,19 +55,19 @@ namespace ts {
         //!
         //! Constructor.
         //!
-        AbstractAVCData() : valid (false) {}
+        AbstractAVCData();
 
         //!
         //! Destructor.
         //!
-        virtual ~AbstractAVCData() {}
+        virtual ~AbstractAVCData();
 
         //!
         //! Clear all values.
         //! Should be reimplemented by subclasses.
         //! The data are marked invalid.
         //!
-        virtual void clear() {valid = false;}
+        virtual void clear();
 
         //!
         //! Parse a memory area containing binary AVC data of the expected type.

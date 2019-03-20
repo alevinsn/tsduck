@@ -1,7 +1,7 @@
 //----------------------------------------------------------------------------
 //
 // TSDuck - The MPEG Transport Stream Toolkit
-// Copyright (c) 2005-2018, Thierry Lelegard
+// Copyright (c) 2005-2019, Thierry Lelegard
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -562,6 +562,75 @@ ts::UString ts::UString::toUpper() const
 
 
 //----------------------------------------------------------------------------
+// Convert between precombined characters and sequences of two characters.
+//----------------------------------------------------------------------------
+
+void ts::UString::combineDiacritical()
+{
+    size_type cur = 0;  // overwrite pointer
+    UChar precomb = 0;  // precombined replacement character
+
+    for (size_type old = 0; old < length(); ++old) {
+        if (old > 0 && IsCombiningDiacritical(at(old)) && (precomb = Precombined(at(old-1), at(old))) != CHAR_NULL) {
+            // This is a replaceable combination.
+            assert(cur > 0);
+            at(cur-1) = precomb;
+        }
+        else {
+            // This is a standard character.
+            at(cur++) = at(old);
+        }
+    }
+
+    // Truncate unused characters.
+    resize(cur);
+}
+
+ts::UString ts::UString::toCombinedDiacritical() const
+{
+    UString result(*this);
+    result.combineDiacritical();
+    return result;
+}
+
+void ts::UString::decomposeDiacritical()
+{
+    const size_type len = length();
+    UString rep;  // replacement for new string.
+    UChar letter = 0;
+    UChar mark = 0;
+
+    // Reserve memory for the result (at most 2 out characters for one in character).
+    rep.reserve(2 * len);
+
+    for (size_type i = 0; i < length(); ++i) {
+        if (DecomposePrecombined(at(i), letter, mark)) {
+            // This is a precombined character and we decomposed it.
+            rep.append(letter);
+            rep.append(mark);
+        }
+        else {
+            // Not a precombined character.
+            rep.append(at(i));
+        }
+    }
+
+    // If many case, the replacement is identical to the old string.
+    // When they are different, their sizes are different as well.
+    if (rep.length() != length()) {
+        swap(rep);
+    }
+}
+
+ts::UString ts::UString::toDecomposedDiacritical() const
+{
+    UString result(*this);
+    result.decomposeDiacritical();
+    return result;
+}
+
+
+//----------------------------------------------------------------------------
 // Remove all occurences of a substring.
 //----------------------------------------------------------------------------
 
@@ -616,7 +685,25 @@ void ts::UString::substitute(const UString& value, const UString& replacement)
     }
 }
 
+void ts::UString::substitute(UChar value, UChar replacement)
+{
+    if (value != replacement) {
+        for (size_t i = 0; i < length(); ++i) {
+            if ((*this)[i] == value) {
+                (*this)[i] = replacement;
+            }
+        }
+    }
+}
+
 ts::UString ts::UString::toSubstituted(const UString& value, const UString& replacement) const
+{
+    UString result(*this);
+    result.substitute(value, replacement);
+    return result;
+}
+
+ts::UString ts::UString::toSubstituted(UChar value, UChar replacement) const
 {
     UString result(*this);
     result.substitute(value, replacement);
@@ -729,6 +816,49 @@ bool ts::UString::contain(const UString& substring, CaseSensitivity cs) const
             return false;
         }
     }
+}
+
+
+//----------------------------------------------------------------------------
+// Compute the number of similar leading/trailing characters in two strings.
+//----------------------------------------------------------------------------
+
+size_t ts::UString::commonPrefixSize(const ts::UString &str, ts::CaseSensitivity cs) const
+{
+    const size_t len = std::min(length(), str.length());
+    for (size_t i = 0; i < len; ++i) {
+        if (cs == CASE_SENSITIVE) {
+            if (at(i) != str.at(i)) {
+                return i;
+            }
+        }
+        else {
+            if (ToLower(at(i)) != ToLower(str.at(i))) {
+                return i;
+            }
+        }
+    }
+    return len;
+}
+
+size_t ts::UString::commonSuffixSize(const ts::UString &str, ts::CaseSensitivity cs) const
+{
+    const size_t len1 = length();
+    const size_t len2 = str.length();
+    const size_t len = std::min(len1, len2);
+    for (size_t i = 0; i < len; ++i) {
+        if (cs == CASE_SENSITIVE) {
+            if (at(len1 - i - 1) != str.at(len2 - i - 1)) {
+                return i;
+            }
+        }
+        else {
+            if (ToLower(at(len1 - i - 1)) != ToLower(str.at(len2 - i - 1))) {
+                return i;
+            }
+        }
+    }
+    return len;
 }
 
 
@@ -1054,6 +1184,31 @@ bool ts::UString::similar(const UString& other) const
 bool ts::UString::similar(const void* addr, size_type size) const
 {
     return addr != nullptr && similar(FromUTF8(reinterpret_cast<const char*>(addr), size));
+}
+
+
+//----------------------------------------------------------------------------
+// Save this string into a file, in UTF-8 format.
+//----------------------------------------------------------------------------
+
+bool ts::UString::save(const ts::UString& fileName, bool append, bool enforceLastLineFeed) const
+{
+    std::ofstream file(fileName.toUTF8().c_str(), append ? (std::ios::out | std::ios::app) : std::ios::out);
+    file << *this;
+    if (enforceLastLineFeed && !empty() && back() != LINE_FEED) {
+        // Check if the first end of line is a LF or CR/LF.
+        // Use the same eol sequence for the last one, regardless of the system.
+        const size_type lf = find(LINE_FEED);
+        if (lf != NPOS && lf > 0 && (*this)[lf-1] == CARRIAGE_RETURN) {
+            // The first eol is a CR/LF.
+            file << "\r\n";
+        }
+        else {
+            file << '\n';
+        }
+    }
+    file.close();
+    return !file.fail();
 }
 
 

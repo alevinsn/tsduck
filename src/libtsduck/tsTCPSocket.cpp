@@ -1,7 +1,7 @@
 //----------------------------------------------------------------------------
 //
 // TSDuck - The MPEG Transport Stream Toolkit
-// Copyright (c) 2005-2018, Thierry Lelegard
+// Copyright (c) 2005-2019, Thierry Lelegard
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -36,7 +36,7 @@ TSDUCK_SOURCE;
 
 
 //----------------------------------------------------------------------------
-// Constructor.
+// Constructors and destructors.
 //----------------------------------------------------------------------------
 
 ts::TCPSocket::TCPSocket() :
@@ -45,14 +45,22 @@ ts::TCPSocket::TCPSocket() :
 {
 }
 
-
-//----------------------------------------------------------------------------
-// Destructor.
-//----------------------------------------------------------------------------
-
 ts::TCPSocket::~TCPSocket()
 {
     TCPSocket::close(NULLREP);
+}
+
+
+//----------------------------------------------------------------------------
+// Default implementations of handlers.
+//----------------------------------------------------------------------------
+
+void ts::TCPSocket::handleOpened(Report& report)
+{
+}
+
+void ts::TCPSocket::handleClosed(Report& report)
+{
 }
 
 

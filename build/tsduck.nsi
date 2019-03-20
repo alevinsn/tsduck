@@ -1,7 +1,7 @@
 ;-----------------------------------------------------------------------------
 ;
 ;  TSDuck - The MPEG Transport Stream Toolkit
-;  Copyright (c) 2005-2018, Thierry Lelegard
+;  Copyright (c) 2005-2019, Thierry Lelegard
 ;  All rights reserved.
 ;
 ;  Redistribution and use in source and binary forms, with or without
@@ -73,7 +73,7 @@ VIAddVersionKey ProductName "TSDuck"
 VIAddVersionKey ProductVersion "${tsduckVersion}"
 VIAddVersionKey Comments "TSDuck - The MPEG Transport Stream Toolkit"
 VIAddVersionKey CompanyName "Thierry Lelegard"
-VIAddVersionKey LegalCopyright "Copyright (c) 2005-2018, Thierry Lelegard"
+VIAddVersionKey LegalCopyright "Copyright (c) 2005-2019, Thierry Lelegard"
 VIAddVersionKey FileVersion "${tsduckVersionInfo}"
 VIAddVersionKey FileDescription "TSDuck - The MPEG Transport Stream Toolkit"
 
@@ -146,12 +146,14 @@ Section "Tools & Plugins" SectionTools
     !else
         File "${BinDir}\ts*.dll"
     !endif
-    File "${RootDir}\src\libtsduck\tsduck.xml"
+    File "${RootDir}\src\libtsduck\tsduck.*.xml"
     File "${RootDir}\src\libtsduck\tsduck.*.names"
 
     ; Delete obsolete files from previous versions.
     Delete "$INSTDIR\bin\tsgentab.exe"
     Delete "$INSTDIR\bin\tsgentab*.dll"
+    Delete "$INSTDIR\bin\tsduck.xml"
+    Delete "$INSTDIR\bin\tsduck.channels.xml"
 
 SectionEnd
 

@@ -1,7 +1,7 @@
 //----------------------------------------------------------------------------
 //
 // TSDuck - The MPEG Transport Stream Toolkit
-// Copyright (c) 2005-2018, Thierry Lelegard
+// Copyright (c) 2005-2019, Thierry Lelegard
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -58,7 +58,7 @@ namespace ts {
         virtual bool start() override;
         virtual bool stop() override;
         virtual bool send(const TSPacket*, size_t) override;
-        virtual bool isRealTime() override {return true;}
+        virtual bool isRealTime() override;
         virtual BitRate getBitrate() override;
 
     private:

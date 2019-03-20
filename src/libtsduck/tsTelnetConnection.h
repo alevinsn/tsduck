@@ -1,7 +1,7 @@
 //----------------------------------------------------------------------------
 //
 // TSDuck - The MPEG Transport Stream Toolkit
-// Copyright (c) 2005-2018, Thierry Lelegard, Frederic Peignot
+// Copyright (c) 2005-2019, Thierry Lelegard, Frederic Peignot
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -63,6 +63,11 @@ namespace ts {
         //! @param [in] prompt Prompt string to send to the client.
         //!
         TelnetConnection(const std::string prompt = std::string());
+
+        //!
+        //! Virtual destructor
+        //!
+        virtual ~TelnetConnection();
 
         //!
         //! Send a request to the server.

@@ -1,7 +1,7 @@
 //----------------------------------------------------------------------------
 //
 // TSDuck - The MPEG Transport Stream Toolkit
-// Copyright (c) 2005-2018, Thierry Lelegard
+// Copyright (c) 2005-2019, Thierry Lelegard
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -29,6 +29,22 @@
 
 #include "tsRingNode.h"
 TSDUCK_SOURCE;
+
+
+//----------------------------------------------------------------------------
+// Constructors and destructors.
+//----------------------------------------------------------------------------
+
+ts::RingNode::RingNode() :
+    _ring_previous(this),
+    _ring_next(this)
+{
+}
+
+ts::RingNode::~RingNode()
+{
+    ringRemove();
+}
 
 
 //----------------------------------------------------------------------------

@@ -1,7 +1,7 @@
 //----------------------------------------------------------------------------
 //
 // TSDuck - The MPEG Transport Stream Toolkit
-// Copyright (c) 2005-2018, Thierry Lelegard
+// Copyright (c) 2005-2019, Thierry Lelegard
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -88,7 +88,7 @@ namespace ts {
     //! ### XML section file format
     //!
     //! The format of XML section files is documented in the TSDuck user's guide.
-    //! An informal template is given in file <code>tsduck.xml</code>. This file
+    //! An informal template is given in file <code>tsduck.tables.model.xml</code>. This file
     //! is used to validate the content of XML section files.
     //!
     //! Sample XML section file:

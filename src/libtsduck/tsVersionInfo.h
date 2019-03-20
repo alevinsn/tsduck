@@ -1,7 +1,7 @@
 //----------------------------------------------------------------------------
 //
 // TSDuck - The MPEG Transport Stream Toolkit
-// Copyright (c) 2005-2018, Thierry Lelegard
+// Copyright (c) 2005-2019, Thierry Lelegard
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -45,13 +45,15 @@ namespace ts {
     //! Types of version formatting, for predefined option --version.
     //!
     enum VersionFormat {
-        VERSION_SHORT,   //!< Short format X.Y-R.
-        VERSION_LONG,    //!< Full explanatory format.
-        VERSION_INTEGER, //!< Integer format XXYYRRRRR.
-        VERSION_DATE,    //!< Build date.
-        VERSION_NSIS,    //!< Output NSIS @c !define directives.
-        VERSION_DEKTEC,  //!< Version of embedded Dektec DTAPI and detected Dektec drivers.
-        VERSION_HTTP,    //!< Version of HTTP library which is used.
+        VERSION_SHORT,    //!< Short format X.Y-R.
+        VERSION_LONG,     //!< Full explanatory format.
+        VERSION_INTEGER,  //!< Integer format XXYYRRRRR.
+        VERSION_DATE,     //!< Build date.
+        VERSION_NSIS,     //!< Output NSIS @c !define directives.
+        VERSION_DEKTEC,   //!< Version of embedded Dektec DTAPI and detected Dektec drivers.
+        VERSION_HTTP,     //!< Version of HTTP library which is used.
+        VERSION_COMPILER, //!< Version of the compiler which was used to build the code.
+        VERSION_ALL,      //!< Multi-line output with full details.
     };
 
     //!

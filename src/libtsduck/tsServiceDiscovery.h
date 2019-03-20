@@ -1,7 +1,7 @@
 //----------------------------------------------------------------------------
 //
 // TSDuck - The MPEG Transport Stream Toolkit
-// Copyright (c) 2005-2018, Thierry Lelegard
+// Copyright (c) 2005-2019, Thierry Lelegard
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -39,6 +39,9 @@
 #include "tsPMTHandlerInterface.h"
 #include "tsPAT.h"
 #include "tsSDT.h"
+#include "tsMGT.h"
+#include "tsTVCT.h"
+#include "tsCVCT.h"
 
 namespace ts {
     //!
@@ -122,6 +125,8 @@ namespace ts {
         void processPAT(const PAT&);
         void processPMT(const PMT&);
         void processSDT(const SDT&);
+        void analyzeMGT(const MGT&);
+        void analyzeVCT(const VCT&);
 
         // Inaccessible operations.
         ServiceDiscovery(const ServiceDiscovery&) = delete;

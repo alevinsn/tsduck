@@ -1,7 +1,7 @@
 //----------------------------------------------------------------------------
 //
 // TSDuck - The MPEG Transport Stream Toolkit
-// Copyright (c) 2005-2018, Thierry Lelegard
+// Copyright (c) 2005-2019, Thierry Lelegard
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -45,6 +45,16 @@ ts::xml::Document::Document(Report& report) :
     Node(report, 1),
     _tweaks()
 {
+}
+
+ts::UString ts::xml::Document::typeName() const
+{
+    return u"Document";
+}
+
+const ts::xml::Tweaks& ts::xml::Document::tweaks() const
+{
+    return _tweaks;
 }
 
 

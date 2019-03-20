@@ -1,7 +1,7 @@
 //----------------------------------------------------------------------------
 //
 // TSDuck - The MPEG Transport Stream Toolkit
-// Copyright (c) 2005-2018, Thierry Lelegard
+// Copyright (c) 2005-2019, Thierry Lelegard
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -63,6 +63,14 @@ namespace ts {
         //! @param [in,out] strm Opened input text stream to read the configuration file.
         //!
         explicit ConfigFile(std::istream& strm);
+
+        //!
+        //! Constructor.
+        //! @param [in] filename1 A file name to read. Don't read a file if empty.
+        //! @param [in] filename2 A file name to read if @a filename1 does not exist. Don't read a file if empty.
+        //! @param [in,out] report Where to report errors.
+        //!
+        ConfigFile(const UString& filename1, const UString& filename2, Report& report = CERR);
 
         //!
         //! System-specific style of default configuration file name.

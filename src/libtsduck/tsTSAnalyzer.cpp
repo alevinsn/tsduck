@@ -1,7 +1,7 @@
 //----------------------------------------------------------------------------
 //
 // TSDuck - The MPEG Transport Stream Toolkit
-// Copyright (c) 2005-2018, Thierry Lelegard
+// Copyright (c) 2005-2019, Thierry Lelegard
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -97,11 +97,7 @@ ts::TSAnalyzer::TSAnalyzer(BitRate bitrate_hint) :
     _pes_demux(this),
     _t2mi_demux(this)
 {
-    // Specify the PID filters to collect PSI tables.
-    // Start with all MPEG/DVB reserved PID's.
-    for (PID pid = 0; pid <= PID_DVB_LAST; ++pid) {
-        _demux.addPID(pid);
-    }
+    resetSectionDemux();
 }
 
 
@@ -165,14 +161,28 @@ void ts::TSAnalyzer::reset()
     _ts_bitrate_cnt = 0;
     _preceding_errors = 0;
     _preceding_suspects = 0;
-    _demux.reset();
     _pes_demux.reset();
+
+    resetSectionDemux();
+}
+
+
+//----------------------------------------------------------------------------
+// Reset the section demux.
+//----------------------------------------------------------------------------
+
+void ts::TSAnalyzer::resetSectionDemux()
+{
+    _demux.reset();
 
     // Specify the PID filters to collect PSI tables.
     // Start with all MPEG/DVB reserved PID's.
     for (PID pid = 0; pid <= PID_DVB_LAST; ++pid) {
         _demux.addPID(pid);
     }
+
+    // Also add ATSC PSIP PID.
+    _demux.addPID(PID_PSIP);
 }
 
 
@@ -319,6 +329,12 @@ ts::TSAnalyzer::PIDContext::PIDContext(PID pid_, const UString& description_) :
             description = u"SIT";
             referenced = true;
             optional = true;
+            break;
+        case PID_PSIP:
+            description = u"ATSC PSIP";
+            referenced = true;
+            optional = true;
+            carry_section = true;
             break;
         default:
             break;
@@ -580,6 +596,27 @@ void ts::TSAnalyzer::handleTable(SectionDemux&, const BinaryTable& table)
             }
             break;
         }
+        case TID_MGT: {
+            MGT mgt(table);
+            if (mgt.isValid()) {
+                analyzeMGT(mgt);
+            }
+            break;
+        }
+        case TID_TVCT: {
+            TVCT tvct(table);
+            if (tvct.isValid()) {
+                analyzeVCT(tvct);
+            }
+            break;
+        }
+        case TID_CVCT: {
+            CVCT cvct(table);
+            if (cvct.isValid()) {
+                analyzeVCT(cvct);
+            }
+            break;
+        }
         default: {
             break;
         }
@@ -688,7 +725,7 @@ void ts::TSAnalyzer::analyzePMT(PID pid, const PMT& pmt)
 void ts::TSAnalyzer::analyzeSDT(const SDT& sdt)
 {
     // Register characteristics of all services
-    for (SDT::ServiceMap::const_iterator it = sdt.services.begin(); it != sdt.services.end(); ++it) {
+    for (auto it = sdt.services.begin(); it != sdt.services.end(); ++it) {
 
         ServiceContextPtr svp(getService(it->first)); // it->first = map key = service id
         svp->orig_netw_id = sdt.onetw_id;
@@ -733,6 +770,63 @@ void ts::TSAnalyzer::analyzeTOT(const TOT& tot)
         if (_first_tot == Time::Epoch) {
             _country_code = tot.regions[0].country;
             _first_tot = _last_tot;
+        }
+    }
+}
+
+
+//----------------------------------------------------------------------------
+// Analyze an ATSC MGT
+//----------------------------------------------------------------------------
+
+void ts::TSAnalyzer::analyzeMGT(const MGT& mgt)
+{
+    // Process all table types.
+    for (auto it = mgt.tables.begin(); it != mgt.tables.end(); ++it) {
+
+        // The table type and its name.
+        const MGT::TableType& tab(it->second);
+        const UString name(u"ATSC " + MGT::TableTypeName(tab.table_type));
+
+        // Get the PID context.
+        const PIDContextPtr ps(getPID(tab.table_type_PID, name));
+        ps->referenced = true;
+        ps->carry_section = true;
+
+        // An ATSC PID may carry more than one table type.
+        if (ps->description != name) {
+            AppendUnique(ps->attributes, name);
+        }
+
+        // Some additional PSIP PID's shall be analyzed.
+        switch (tab.table_type) {
+            case ATSC_TTYPE_TVCT_CURRENT:
+            case ATSC_TTYPE_CVCT_CURRENT:
+                _demux.addPID(tab.table_type_PID);
+                break;
+            default:
+                break;
+        }
+    }
+}
+
+
+//----------------------------------------------------------------------------
+// Analyze an ATSC TVCT (terrestrial) or CVCT (cable)
+//----------------------------------------------------------------------------
+
+void ts::TSAnalyzer::analyzeVCT(const VCT& vct)
+{
+    // Register characteristics of all services
+    for (auto it = vct.channels.begin(); it != vct.channels.end(); ++it) {
+        // Only keep services from this transport stream.
+        if (it->second.channel_TSID == vct.transport_stream_id) {
+            // Get or create the service with this service id ("program number" in ATSC parlance).
+            ServiceContextPtr svp(getService(it->second.program_number));
+            if (!it->second.short_name.empty()) {
+                // Update the service name.
+                svp->name = it->second.short_name;
+            }
         }
     }
 }

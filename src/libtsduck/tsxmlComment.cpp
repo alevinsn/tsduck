@@ -1,7 +1,7 @@
 //----------------------------------------------------------------------------
 //
 // TSDuck - The MPEG Transport Stream Toolkit
-// Copyright (c) 2005-2018, Thierry Lelegard
+// Copyright (c) 2005-2019, Thierry Lelegard
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -43,6 +43,11 @@ ts::xml::Comment::Comment(Report& report, size_t line) :
 ts::xml::Comment::Comment(Node* parent, const UString& text, bool last) :
     Node(parent, text, last)
 {
+}
+
+ts::UString ts::xml::Comment::typeName() const
+{
+    return u"Comment";
 }
 
 

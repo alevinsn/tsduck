@@ -1,7 +1,7 @@
 //----------------------------------------------------------------------------
 //
 // TSDuck - The MPEG Transport Stream Toolkit
-// Copyright (c) 2005-2018, Thierry Lelegard
+// Copyright (c) 2005-2019, Thierry Lelegard
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -129,11 +129,16 @@ void ts::AVCVUIParameters::clear()
 // Parse a memory area. Return the "valid" flag.
 //----------------------------------------------------------------------------
 
-bool ts::AVCVUIParameters::parse (AVCParser& parser)
+bool ts::AVCVUIParameters::parse(const void* data, size_t size)
+{
+    return AbstractAVCStructure::parse(data, size);
+}
+
+bool ts::AVCVUIParameters::parse(AVCParser& parser)
 {
     clear();
 
-    valid = parser.u (aspect_ratio_info_present_flag, 1);
+    valid = parser.u(aspect_ratio_info_present_flag, 1);
 
     if (valid && aspect_ratio_info_present_flag == 1) {
         valid = parser.u (aspect_ratio_idc, 8);

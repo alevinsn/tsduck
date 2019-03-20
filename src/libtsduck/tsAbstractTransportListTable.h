@@ -1,7 +1,7 @@
 //----------------------------------------------------------------------------
 //
 // TSDuck - The MPEG Transport Stream Toolkit
-// Copyright (c) 2005-2018, Thierry Lelegard
+// Copyright (c) 2005-2019, Thierry Lelegard
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -95,6 +95,13 @@ namespace ts {
         AbstractTransportListTable(const AbstractTransportListTable& other);
 
         //!
+        //! Assignment operator.
+        //! @param [in] other Other instance to copy.
+        //! @return A reference to this object.
+        //!
+        AbstractTransportListTable& operator=(const AbstractTransportListTable& other) = default;
+
+        //!
         //! Clear preferred section in all transport.
         //!
         void clearPreferredSections();
@@ -110,20 +117,22 @@ namespace ts {
         //! Constructor for subclasses.
         //! @param [in] tid Table id.
         //! @param [in] xml_name Table name, as used in XML structures.
+        //! @param [in] standards A bit mask of standards which define this structure.
         //! @param [in] tid_ext Table id extension.
         //! @param [in] version Table version number.
         //! @param [in] is_current True if table is current, false if table is next.
         //!
-        AbstractTransportListTable(TID tid, const UChar* xml_name, uint16_t tid_ext, uint8_t version, bool is_current);
+        AbstractTransportListTable(TID tid, const UChar* xml_name, Standards standards, uint16_t tid_ext, uint8_t version, bool is_current);
 
         //!
         //! Constructor from a binary table.
         //! @param [in] tid Table id.
         //! @param [in] xml_name Table name, as used in XML structures.
+        //! @param [in] standards A bit mask of standards which define this structure.
         //! @param [in] table Binary table to deserialize.
         //! @param [in] charset If not zero, character set to use without explicit table code.
         //!
-        AbstractTransportListTable(TID tid, const UChar* xml_name, const BinaryTable& table, const DVBCharset* charset);
+        AbstractTransportListTable(TID tid, const UChar* xml_name, Standards standards, const BinaryTable& table, const DVBCharset* charset);
 
     private:
         typedef std::set<TransportStreamId> TransportStreamIdSet;

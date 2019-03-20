@@ -1,7 +1,7 @@
 //-----------------------------------------------------------------------------
 //
 // TSDuck - The MPEG Transport Stream Toolkit
-// Copyright (c) 2005-2018, Thierry Lelegard
+// Copyright (c) 2005-2019, Thierry Lelegard
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -43,7 +43,7 @@
 #include "tsIntegerUtils.h"
 TSDUCK_SOURCE;
 
-#if defined (DEBUG)
+#if defined(DEBUG)
 #define TRACE(...) _report.log(__VA_ARGS__)
 #else
 #define TRACE(...)

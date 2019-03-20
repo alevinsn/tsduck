@@ -1,7 +1,7 @@
 //----------------------------------------------------------------------------
 //
 // TSDuck - The MPEG Transport Stream Toolkit
-// Copyright (c) 2005-2018, Thierry Lelegard
+// Copyright (c) 2005-2019, Thierry Lelegard
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -54,6 +54,7 @@ ts::PSILogger::PSILogger(PSILoggerArgs& opt, TablesDisplay& display, Report& rep
     _cat_ok(_opt.clear),
     _sdt_ok(_opt.cat_only),
     _bat_ok(false),
+    _mgt_ok(false),
     _expected_pmt(0),
     _received_pmt(0),
     _clear_packets_cnt(0),
@@ -68,9 +69,10 @@ ts::PSILogger::PSILogger(PSILoggerArgs& opt, TablesDisplay& display, Report& rep
 
     // Specify the PID filters
     if (!_opt.cat_only) {
-        _demux.addPID(PID_PAT);
-        _demux.addPID(PID_TSDT);
-        _demux.addPID(PID_SDT);
+        _demux.addPID(PID_PAT);   // MPEG
+        _demux.addPID(PID_TSDT);  // MPEG
+        _demux.addPID(PID_SDT);   // DVB
+        _demux.addPID(PID_PSIP);  // ATSC
     }
     if (!_opt.clear) {
         _demux.addPID(PID_CAT);
@@ -244,6 +246,29 @@ void ts::PSILogger::handleTable(SectionDemux&, const BinaryTable& table)
                 // since the SDT can also be found here.
                 _display.displayTable(table);
             }
+            break;
+        }
+
+        case TID_MGT: {
+            if (pid != PID_PSIP) {
+                // An MGT is only expected on PID 0x1FFB
+                strm << UString::Format(u"* Got unexpected ATSC MGT on PID %d (0x%X)", {pid, pid}) << std::endl;
+                _display.displayTable(table);
+            }
+            else if (_opt.all_versions || !_mgt_ok) {
+                // Got the MGT.
+                _mgt_ok = true;
+                // We cannot stop filtering this PID if we don't need all versions
+                // since the TVCT or CVCT can also be found here.
+                _display.displayTable(table);
+            }
+            break;
+        }
+
+        case TID_TVCT:
+        case TID_CVCT: {
+            // ATSC tables with channel description.
+            _display.displayTable(table);
             break;
         }
 

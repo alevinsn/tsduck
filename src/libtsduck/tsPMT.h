@@ -1,7 +1,7 @@
 //----------------------------------------------------------------------------
 //
 // TSDuck - The MPEG Transport Stream Toolkit
-// Copyright (c) 2005-2018, Thierry Lelegard
+// Copyright (c) 2005-2019, Thierry Lelegard
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -139,11 +139,24 @@ namespace ts {
         PMT(const BinaryTable& table, const DVBCharset* charset = nullptr);
 
         //!
+        //! Assignment operator.
+        //! @param [in] other Other instance to copy.
+        //! @return A reference to this object.
+        //!
+        PMT& operator=(const PMT& other) = default;
+
+        //!
         //! Search the component PID for a given component tag.
         //! @param [in] tag Component tag to search.
-        //! @return The PID of the corresponding component of PID_NULL if not found.
+        //! @return The PID of the corresponding component or PID_NULL if not found.
         //!
         PID componentTagToPID(uint8_t tag) const;
+
+        //!
+        //! Search the first video PID in the service.
+        //! @return The first video PID or PID_NULL if none is found.
+        //!
+        PID firstVideoPID() const;
 
         // Inherited methods
         virtual void serialize(BinaryTable& table, const DVBCharset* = nullptr) const override;

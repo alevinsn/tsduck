@@ -1,7 +1,7 @@
 //----------------------------------------------------------------------------
 //
 // TSDuck - The MPEG Transport Stream Toolkit
-// Copyright (c) 2005-2018, Thierry Lelegard
+// Copyright (c) 2005-2019, Thierry Lelegard
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -90,6 +90,16 @@ void ts::AbstractDemux::removePID(PID pid)
         _pid_filter.reset(pid);
         resetPID(pid);
     }
+}
+
+size_t ts::AbstractDemux::pidCount() const
+{
+    return _pid_filter.count();
+}
+
+bool ts::AbstractDemux::hasPID(PID pid) const
+{
+    return pid < _pid_filter.size() && _pid_filter.test(pid);
 }
 
 

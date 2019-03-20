@@ -1,7 +1,7 @@
 //----------------------------------------------------------------------------
 //
 // TSDuck - The MPEG Transport Stream Toolkit
-// Copyright (c) 2005-2018, Thierry Lelegard
+// Copyright (c) 2005-2019, Thierry Lelegard
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -37,6 +37,21 @@
 #include "tsFatal.h"
 #include "tsLNB.h"
 TSDUCK_SOURCE;
+
+
+//----------------------------------------------------------------------------
+// Simple virtual methods.
+//----------------------------------------------------------------------------
+
+bool ts::DektecInputPlugin::isRealTime()
+{
+    return true;
+}
+
+size_t ts::DektecInputPlugin::stackUsage() const
+{
+    return 512 * 1024; // 512 kB
+}
 
 
 //----------------------------------------------------------------------------

@@ -1,7 +1,7 @@
 //----------------------------------------------------------------------------
 //
 // TSDuck - The MPEG Transport Stream Toolkit
-// Copyright (c) 2005-2018, Thierry Lelegard
+// Copyright (c) 2005-2019, Thierry Lelegard
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -47,11 +47,6 @@
 #define SCARD_LEAVE_CARD   0
 
 #else // PC/SC support available
-
-#include <winscard.h>
-#if defined(TS_LINUX)
-#include <PCSC/reader.h>
-#endif
 
 namespace ts {
     //!

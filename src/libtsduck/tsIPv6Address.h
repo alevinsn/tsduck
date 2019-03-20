@@ -1,7 +1,7 @@
 //----------------------------------------------------------------------------
 //
 // TSDuck - The MPEG Transport Stream Toolkit
-// Copyright (c) 2005-2018, Thierry Lelegard
+// Copyright (c) 2005-2019, Thierry Lelegard
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -60,7 +60,7 @@ namespace ts {
         //!
         //! Size in bytes of an IPv6 address.
         //!
-        static const size_t BYTES = 16;
+        static constexpr size_t BYTES = 16;
 
         //!
         //! Wildcard integer value for "any IP address".

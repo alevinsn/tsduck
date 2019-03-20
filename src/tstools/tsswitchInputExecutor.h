@@ -1,7 +1,7 @@
 //----------------------------------------------------------------------------
 //
 // TSDuck - The MPEG Transport Stream Toolkit
-// Copyright (c) 2005-2018, Thierry Lelegard
+// Copyright (c) 2005-2019, Thierry Lelegard
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -119,10 +119,10 @@ namespace ts {
             void freeOutput(size_t count);
 
             // Implementation of TSP. We do not use "joint termination" in tsswitch.
-            virtual void useJointTermination(bool) override {}
-            virtual void jointTerminate() override {}
-            virtual bool useJointTermination() const override {return false;}
-            virtual bool thisJointTerminated() const override {return false;}
+            virtual void useJointTermination(bool) override;
+            virtual void jointTerminate() override;
+            virtual bool useJointTermination() const override;
+            virtual bool thisJointTerminated() const override;
 
         private:
             Core&          _core;         // Application core.

@@ -1,7 +1,7 @@
 //----------------------------------------------------------------------------
 //
 // TSDuck - The MPEG Transport Stream Toolkit
-// Copyright (c) 2005-2018, Thierry Lelegard
+// Copyright (c) 2005-2019, Thierry Lelegard
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -49,12 +49,12 @@ namespace ts {
         //!
         //! Default constructor
         //!
-        AbstractAudioVideoAttributes() : _is_valid(false) {}
+        AbstractAudioVideoAttributes();
 
         //!
         //! Virtual destructor
         //!
-        virtual ~AbstractAudioVideoAttributes() {}
+        virtual ~AbstractAudioVideoAttributes();
 
         //!
         //! Check if the values in the object are valid.

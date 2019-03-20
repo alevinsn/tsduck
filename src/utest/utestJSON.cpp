@@ -1,7 +1,7 @@
 //----------------------------------------------------------------------------
 //
 // TSDuck - The MPEG Transport Stream Toolkit
-// Copyright (c) 2005-2018, Thierry Lelegard
+// Copyright (c) 2005-2019, Thierry Lelegard
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -32,6 +32,14 @@
 //----------------------------------------------------------------------------
 
 #include "tsjson.h"
+#include "tsjsonNull.h"
+#include "tsjsonTrue.h"
+#include "tsjsonFalse.h"
+#include "tsjsonValue.h"
+#include "tsjsonNumber.h"
+#include "tsjsonString.h"
+#include "tsjsonObject.h"
+#include "tsjsonArray.h"
 #include "tsCerrReport.h"
 #include "tsNullReport.h"
 #include "utestCppUnitTest.h"

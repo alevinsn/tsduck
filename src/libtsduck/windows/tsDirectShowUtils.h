@@ -1,7 +1,7 @@
 //-----------------------------------------------------------------------------
 //
 // TSDuck - The MPEG Transport Stream Toolkit
-// Copyright (c) 2005-2018, Thierry Lelegard
+// Copyright (c) 2005-2019, Thierry Lelegard
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -148,4 +148,13 @@ namespace ts {
     //! @return True on success, false on error.
     //!
     TSDUCKDLL bool CreateLocatorDVBC(ComPtr<::IDigitalLocator>& locator, const TunerParametersDVBC& params, Report& report);
+
+    //!
+    //! Create an IDigitalLocator object for ATSC parameters.
+    //! @param [out] locator COM pointer to the IDigitalLocator interface of the created object.
+    //! @param [in] params ATSC parameters in portable format.
+    //! @param [in,out] report Where to report errors.
+    //! @return True on success, false on error.
+    //!
+    TSDUCKDLL bool CreateLocatorATSC(ComPtr<::IDigitalLocator>& locator, const TunerParametersATSC& params, Report& report);
 }
